@@ -1,0 +1,6 @@
+[submodule "ThirdParty/JUCE"]
+	path = ThirdParty/JUCE
+	url = git@github.com:juce-framework/JUCE.git
+[submodule "ThirdParty/FRUT"]
+	path = ThirdParty/FRUT
+	url = git@github.com:McMartin/FRUT.git
