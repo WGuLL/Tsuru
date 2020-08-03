@@ -41,7 +41,15 @@ private:
   static constexpr auto expectedNbChannels = 2;
   std::array<juce::IIRFilter, expectedNbChannels> filters;
 
-  auto bpm = 0;
+  int nbSamplesLeft = 0;
+  int periodInSample = 0;
+  double sampleRate = 44100;
+  size_t currentFrequencyIndex{0};
+  int filterChoregraphyStepPeriod{0};
+
+
+  static constexpr std::array<double, 4> frequencies{{300, 1500, 1000, 500}};
+  static constexpr double q = 1;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
 };

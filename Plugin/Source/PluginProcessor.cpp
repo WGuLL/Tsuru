@@ -60,15 +60,14 @@ void FunFilterAudioProcessor::changeProgramName(
 {
 }
 
-void FunFilterAudioProcessor::prepareToPlay(double sampleRate,
+void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
                                             [[maybe_unused]] int samplesPerBlock)
 {
-  constexpr double arbitraryFrequency = 300;
-  constexpr double q = 1.f;
+  sampleRate = newSampleRate;
   for (auto& filter : filters)
   {
     filter.setCoefficients(
-      juce::IIRCoefficients::makeLowPass(sampleRate, arbitraryFrequency, q));
+      juce::IIRCoefficients::makeLowPass(sampleRate, frequencies.front(), q));
   }
 }
 
@@ -88,12 +87,25 @@ void FunFilterAudioProcessor::processBlock(
   const auto totalNumInputChannels = getTotalNumInputChannels();
   const auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+  auto* playHead = getPlayHead();
+  juce::AudioPlayHead::CurrentPositionInfo info;
+  if (playHead->getCurrentPosition(info))
+  {
+    const auto bpm = info.bpm;
+    constexpr auto secInOneMinute = 60;
+    const auto songFreqHz = bpm / secInOneMinute;
+    const auto songPeriodInSamples = sampleRate / songFreqHz;
+    const auto filterChoregraphySteps = static_cast<double>(frequencies.size());
+    filterChoregraphyStepPeriod = songPeriodInSamples / filterChoregraphySteps;
+    DBG(filterChoregraphyStepPeriod);
+  }
+
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
   {
     buffer.clear(i, 0, buffer.getNumSamples());
   }
 
-  for (int channel = 0;
+  for (auto channel = 0;
        channel < std::min(totalNumInputChannels, static_cast<int>(filters.size()));
        ++channel)
   {
