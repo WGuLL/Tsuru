@@ -5,7 +5,8 @@
 
 /**
  */
-class FunFilterAudioProcessor : public juce::AudioProcessor {
+class FunFilterAudioProcessor : public juce::AudioProcessor
+{
 public:
   FunFilterAudioProcessor();
   ~FunFilterAudioProcessor() override;
@@ -13,11 +14,11 @@ public:
   void prepareToPlay(double sampleRate, int samplesPerBlock) override;
   void releaseResources() override;
 
-  bool isBusesLayoutSupported(const BusesLayout &layouts) const override;
+  bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
 
-  void processBlock(juce::AudioBuffer<float> &, juce::MidiBuffer &) override;
+  void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
-  juce::AudioProcessorEditor *createEditor() override;
+  juce::AudioProcessorEditor* createEditor() override;
   bool hasEditor() const override;
 
   const juce::String getName() const override;
@@ -31,14 +32,16 @@ public:
   int getCurrentProgram() override;
   void setCurrentProgram(int index) override;
   const juce::String getProgramName(int index) override;
-  void changeProgramName(int index, const juce::String &newName) override;
+  void changeProgramName(int index, const juce::String& newName) override;
 
-  void getStateInformation(juce::MemoryBlock &destData) override;
-  void setStateInformation(const void *data, int sizeInBytes) override;
+  void getStateInformation(juce::MemoryBlock& destData) override;
+  void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
   static constexpr auto expectedNbChannels = 2;
   std::array<juce::IIRFilter, expectedNbChannels> filters;
+
+  auto bpm = 0;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
 };
