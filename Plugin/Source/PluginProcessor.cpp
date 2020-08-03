@@ -3,112 +3,89 @@
 #include "PluginEditor.h"
 
 FunFilterAudioProcessor::FunFilterAudioProcessor()
-     : AudioProcessor (BusesProperties()
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                       )
-{
-}
+    : AudioProcessor(
+          BusesProperties()
+              .withInput("Input", juce::AudioChannelSet::stereo(), true)
+              .withOutput("Output", juce::AudioChannelSet::stereo(), true)) {}
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() = default;
 
-const juce::String FunFilterAudioProcessor::getName() const
-{
-    return JucePlugin_Name;
+const juce::String FunFilterAudioProcessor::getName() const {
+  return JucePlugin_Name;
 }
 
-bool FunFilterAudioProcessor::acceptsMidi() const
-{
-    return false;
+bool FunFilterAudioProcessor::acceptsMidi() const { return false; }
+
+bool FunFilterAudioProcessor::producesMidi() const { return false; }
+
+bool FunFilterAudioProcessor::isMidiEffect() const { return false; }
+
+double FunFilterAudioProcessor::getTailLengthSeconds() const { return 0.0; }
+
+int FunFilterAudioProcessor::getNumPrograms() { return 1; }
+
+int FunFilterAudioProcessor::getCurrentProgram() { return 0; }
+
+void FunFilterAudioProcessor::setCurrentProgram([[maybe_unused]] int index) {}
+
+const juce::String FunFilterAudioProcessor::getProgramName([
+    [maybe_unused]] int index) {
+  return {};
 }
 
-bool FunFilterAudioProcessor::producesMidi() const
-{
-    return false;
+void FunFilterAudioProcessor::changeProgramName(
+    [[maybe_unused]] int index, [[maybe_unused]] const juce::String &newName) {}
+
+void FunFilterAudioProcessor::prepareToPlay(
+    double sampleRate, [[maybe_unused]] int samplesPerBlock) {
+  constexpr double arbitraryFrequency = 300;
+  constexpr double q = 1.f;
+  for (auto &filter : filters) {
+    filter.setCoefficients(
+        juce::IIRCoefficients::makeLowPass(sampleRate, arbitraryFrequency, q));
+  }
 }
 
-bool FunFilterAudioProcessor::isMidiEffect() const
-{
-    return false;
+void FunFilterAudioProcessor::releaseResources() {}
+
+bool FunFilterAudioProcessor::isBusesLayoutSupported(
+    const BusesLayout &layouts) const {
+  return layouts.getMainOutputChannelSet() == layouts.getMainInputChannelSet();
 }
 
-double FunFilterAudioProcessor::getTailLengthSeconds() const
-{
-    return 0.0;
+void FunFilterAudioProcessor::processBlock(
+    juce::AudioBuffer<float> &buffer,
+    [[maybe_unused]] juce::MidiBuffer &midiMessages) {
+  juce::ScopedNoDenormals noDenormals;
+  const auto totalNumInputChannels = getTotalNumInputChannels();
+  const auto totalNumOutputChannels = getTotalNumOutputChannels();
+
+  for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i) {
+    buffer.clear(i, 0, buffer.getNumSamples());
+  }
+
+  for (int channel = 0; channel < std::min(totalNumInputChannels,
+                                           static_cast<int>(filters.size()));
+       ++channel) {
+    filters[channel].processSamples(buffer.getWritePointer(channel),
+                                    buffer.getNumSamples());
+  }
 }
 
-int FunFilterAudioProcessor::getNumPrograms()
-{
-    return 1;
+bool FunFilterAudioProcessor::hasEditor() const {
+  return true; // (change this to false if you choose to not supply an editor)
 }
 
-int FunFilterAudioProcessor::getCurrentProgram()
-{
-    return 0;
+juce::AudioProcessorEditor *FunFilterAudioProcessor::createEditor() {
+  return new FunFilterEditor(*this);
 }
 
-void FunFilterAudioProcessor::setCurrentProgram ([[maybe_unused]] int index)
-{
-}
+void FunFilterAudioProcessor::getStateInformation([
+    [maybe_unused]] juce::MemoryBlock &destData) {}
 
-const juce::String FunFilterAudioProcessor::getProgramName ([[maybe_unused]] int index)
-{
-    return {};
-}
+void FunFilterAudioProcessor::setStateInformation(
+    [[maybe_unused]] const void *data, [[maybe_unused]] int sizeInBytes) {}
 
-void FunFilterAudioProcessor::changeProgramName ([[maybe_unused]] int index, [[maybe_unused]]  const juce::String& newName)
-{
-}
-
-void FunFilterAudioProcessor::prepareToPlay ([[maybe_unused]] double sampleRate, [[maybe_unused]] int samplesPerBlock)
-{
-}
-
-void FunFilterAudioProcessor::releaseResources()
-{
-}
-
-bool FunFilterAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
-    return layouts.getMainOutputChannelSet() == layouts.getMainInputChannelSet();
-}
-
-void FunFilterAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[maybe_unused]] juce::MidiBuffer& midiMessages)
-{
-    juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
-    }
-}
-
-bool FunFilterAudioProcessor::hasEditor() const
-{
-    return true; // (change this to false if you choose to not supply an editor)
-}
-
-juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
-{
-    return new FunFilterEditor (*this);
-}
-
-void FunFilterAudioProcessor::getStateInformation ( [[maybe_unused]] juce::MemoryBlock& destData)
-{
-}
-
-void FunFilterAudioProcessor::setStateInformation ([[maybe_unused]] const void* data,[[maybe_unused]]  int sizeInBytes)
-{
-}
-
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
-    return new FunFilterAudioProcessor();
+juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
+  return new FunFilterAudioProcessor();
 }

@@ -8,22 +8,21 @@
 
 #pragma once
 
-#include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include <JuceHeader.h>
 
 /**
-*/
-class FunFilterEditor  : public juce::AudioProcessorEditor
-{
+ */
+class FunFilterEditor : public juce::AudioProcessorEditor {
 public:
-    FunFilterEditor (FunFilterAudioProcessor&);
-    ~FunFilterEditor() override;
+  FunFilterEditor(FunFilterAudioProcessor &);
+  ~FunFilterEditor() override;
 
-    void paint (juce::Graphics&) override;
-    void resized() override;
+  void paint(juce::Graphics &) override;
+  void resized() override;
 
 private:
-    FunFilterAudioProcessor& audioProcessor;
+  FunFilterAudioProcessor &audioProcessor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FunFilterEditor)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };
