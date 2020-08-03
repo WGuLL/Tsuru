@@ -38,11 +38,13 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
+  void updateFilters() noexcept;
+
+
   static constexpr auto expectedNbChannels = 2;
   std::array<juce::IIRFilter, expectedNbChannels> filters;
 
-  int nbSamplesLeft = 0;
-  int periodInSample = 0;
+  int nbSamplesLeftBeforeNextStep = 0;
   double sampleRate = 44100;
   size_t currentFrequencyIndex{0};
   int filterChoregraphyStepPeriod{0};
