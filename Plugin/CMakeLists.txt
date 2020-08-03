@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.4)
 
-project("funFilter")
+project("FunFilter")
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../ThirdParty/FRUT/prefix/FRUT/cmake")
@@ -14,6 +14,9 @@ set(funFilter_jucer_FILE
 )
 
 
+set(JUCE_MODULES_GLOBAL_PATH "/Users/ExpressivDev/Documents/TemDev/FunFilter/ThirdParty/JUCE/modules")
+
+
 jucer_project_begin(
   JUCER_FORMAT_VERSION "1"
   PROJECT_FILE "${funFilter_jucer_FILE}"
@@ -21,14 +24,14 @@ jucer_project_begin(
 )
 
 jucer_project_settings(
-  PROJECT_NAME "funFilter"
+  PROJECT_NAME "FunFilter"
   PROJECT_VERSION "0.0.1"
   COMPANY_NAME "Kaisha"
   COMPANY_EMAIL "fabien.roussel.1992@gmail.com"
   REPORT_JUCE_APP_USAGE ON # Required for closed source applications without an Indie or Pro JUCE license
   DISPLAY_THE_JUCE_SPLASH_SCREEN ON # Required for closed source applications without an Indie or Pro JUCE license
   PROJECT_TYPE "Audio Plug-in"
-  BUNDLE_IDENTIFIER "com.Kaisha.funFilter"
+  BUNDLE_IDENTIFIER "com.Kaisha.FunFilter"
   CXX_LANGUAGE_STANDARD "C++17"
 )
 
@@ -36,15 +39,16 @@ jucer_audio_plugin_settings(
   PLUGIN_FORMATS
     "VST3"
     "AU"
+    "Standalone"
   # PLUGIN_CHARACTERISTICS
-  PLUGIN_NAME "funFilter"
-  PLUGIN_DESCRIPTION "funFilter"
+  PLUGIN_NAME "FunFilter"
+  PLUGIN_DESCRIPTION "FunFilter"
   PLUGIN_MANUFACTURER "Kaisha"
   PLUGIN_MANUFACTURER_CODE "Manu"
   PLUGIN_CODE "Qp1h"
   # PLUGIN_CHANNEL_CONFIGURATIONS
-  PLUGIN_AAX_IDENTIFIER "com.Kaisha.funFilter"
-  PLUGIN_AU_EXPORT_PREFIX "funFilterAU"
+  PLUGIN_AAX_IDENTIFIER "com.Kaisha.FunFilter"
+  PLUGIN_AU_EXPORT_PREFIX "FunFilterAU"
   PLUGIN_AU_MAIN_TYPE "kAudioUnitType_Effect"
   PLUGIN_VST3_CATEGORY
     "Fx"
@@ -55,7 +59,7 @@ jucer_audio_plugin_settings(
   PLUGIN_VST_LEGACY_CATEGORY "kPlugCategEffect"
 )
 
-jucer_project_files("funFilter/Source"
+jucer_project_files("FunFilter/Source"
 # Compile   Xcode     Binary    File                          Compiler Flag
 #           Resource  Resource                                Scheme
   .         .         .         "Source/JuceHeaderWrapper.h"
@@ -67,12 +71,29 @@ jucer_project_files("funFilter/Source"
 
 jucer_project_module(
   juce_audio_basics
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+)
+
+jucer_project_module(
+  juce_audio_devices
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  # JUCE_USE_WINRT_MIDI
+  # JUCE_ASIO
+  # JUCE_WASAPI
+  # JUCE_WASAPI_EXCLUSIVE
+  # JUCE_DIRECTSOUND
+  # JUCE_ALSA
+  # JUCE_JACK
+  # JUCE_BELA
+  # JUCE_USE_ANDROID_OBOE
+  # JUCE_USE_OBOE_STABILIZED_CALLBACK
+  # JUCE_USE_ANDROID_OPENSLES
+  # JUCE_DISABLE_AUDIO_MIXING_WITH_OTHER_APPS
 )
 
 jucer_project_module(
   juce_audio_formats
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_USE_FLAC
   # JUCE_USE_OGGVORBIS
   # JUCE_USE_MP3AUDIOFORMAT
@@ -81,8 +102,19 @@ jucer_project_module(
 )
 
 jucer_project_module(
+  juce_audio_plugin_client
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  JUCE_VST3_CAN_REPLACE_VST2 OFF
+  # JUCE_FORCE_USE_LEGACY_PARAM_IDS
+  # JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
+  # JUCE_USE_STUDIO_ONE_COMPATIBLE_PARAMETERS
+  # JUCE_AU_WRAPPERS_SAVE_PROGRAM_STATES
+  # JUCE_STANDALONE_FILTER_WINDOW_USE_KIOSK_MODE
+)
+
+jucer_project_module(
   juce_audio_processors
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_PLUGINHOST_VST
   # JUCE_PLUGINHOST_VST3
   # JUCE_PLUGINHOST_AU
@@ -91,8 +123,15 @@ jucer_project_module(
 )
 
 jucer_project_module(
+  juce_audio_utils
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  # JUCE_USE_CDREADER
+  # JUCE_USE_CDBURNER
+)
+
+jucer_project_module(
   juce_core
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_FORCE_DEBUG
   # JUCE_LOG_ASSERTIONS
   # JUCE_CHECK_MEMORY_LEAKS
@@ -108,12 +147,18 @@ jucer_project_module(
 
 jucer_project_module(
   juce_data_structures
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+)
+
+jucer_project_module(
+  juce_events
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  # JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
 )
 
 jucer_project_module(
   juce_dsp
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_ASSERTION_FIRFILTER
   # JUCE_DSP_USE_INTEL_MKL
   # JUCE_DSP_USE_SHARED_FFTW
@@ -122,14 +167,8 @@ jucer_project_module(
 )
 
 jucer_project_module(
-  juce_events
-  PATH "../ThirdParty/JUCE/modules"
-  # JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
-)
-
-jucer_project_module(
   juce_graphics
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_USE_COREIMAGE_LOADER
   # JUCE_USE_DIRECTWRITE
   # JUCE_DISABLE_COREGRAPHICS_FONT_SMOOTHING
@@ -137,7 +176,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_gui_basics
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_ENABLE_REPAINT_DEBUGGING
   # JUCE_USE_XRANDR
   # JUCE_USE_XINERAMA
@@ -149,7 +188,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_gui_extra
-  PATH "../ThirdParty/JUCE/modules"
+  PATH "${JUCE_MODULES_GLOBAL_PATH}"
   # JUCE_WEB_BROWSER
   # JUCE_USE_WIN_WEBVIEW2
   # JUCE_ENABLE_LIVE_CONSTANT_EDITOR
@@ -165,14 +204,14 @@ jucer_export_target_configuration(
   "Xcode (MacOSX)"
   NAME "Debug"
   DEBUG_MODE ON
-  BINARY_NAME "funFilterDebug"
+  BINARY_NAME "FunFilterDebug"
 )
 
 jucer_export_target_configuration(
   "Xcode (MacOSX)"
   NAME "Release"
   DEBUG_MODE OFF
-  BINARY_NAME "funFilter"
+  BINARY_NAME "FunFilter"
 )
 
 jucer_project_end()
