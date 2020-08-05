@@ -110,8 +110,10 @@ int FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(int bpm)
     constexpr auto secInOneMinute = 60;
     const auto songFreqHz = bpm / secInOneMinute;
     const auto songPeriodInSamples = sampleRate / songFreqHz;
+    const auto choregraphyPeriodInSamples =
+        songPeriodInSamples * choregraphyLengthInBeats;
     const auto filterChoregraphySteps = static_cast<double>(frequencies.size());
-    return static_cast<int>(songPeriodInSamples / filterChoregraphySteps);
+    return static_cast<int>(choregraphyPeriodInSamples / filterChoregraphySteps);
 }
 
 void FunFilterAudioProcessor::processBlock(

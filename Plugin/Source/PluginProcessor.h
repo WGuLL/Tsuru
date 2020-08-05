@@ -63,10 +63,11 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     size_t currentFrequencyIndex{0};
     int filterChoregraphyStepPeriod{0};
 
+    static constexpr auto choregraphyLengthInBeats{2};
     static constexpr auto filterChoregraphyNbSteps{4};
     static constexpr std::array<double, filterChoregraphyNbSteps> frequencies{
         {300, 1500, 800, 3000}};
-    static constexpr double q = 1;
+    static constexpr double q = 1.5;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
 };
