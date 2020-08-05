@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<JUCERPROJECT id="QP1hIV" name="FunFilter" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              version="0.0.1" companyEmail="fabien.roussel.1992@gmail.com"
-              cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Kaisha"
-              pluginFormats="buildAU,buildVST3,buildStandalone">
+<JUCERPROJECT id="QP1hIV" name="FunFilter" projectType="audioplug" useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1" version="0.0.1" companyEmail="fabien.roussel.1992@gmail.com" cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Kaisha" pluginFormats="buildAU,buildVST3,buildStandalone">
   <MAINGROUP id="aYrAzy" name="FunFilter">
     <GROUP id="{2CBC4F03-F194-7E02-C996-52E8B80262EC}" name="Source">
-      <FILE id="Yk2PDq" name="JuceHeaderWrapper.h" compile="0" resource="0"
-            file="Source/JuceHeaderWrapper.h"/>
-      <FILE id="hEKjZo" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp" compilerFlagScheme="AllWarnings"/>
-      <FILE id="dj5J49" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="fGebvM" name="PluginEditor.cpp" compile="1" resource="0"
-            file="Source/PluginEditor.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="Yk2PDq" name="JuceHeaderWrapper.h" compile="0" resource="0" file="Source/JuceHeaderWrapper.h"/>
+      <FILE id="hEKjZo" name="PluginProcessor.cpp" compile="1" resource="0" file="Source/PluginProcessor.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="dj5J49" name="PluginProcessor.h" compile="0" resource="0" file="Source/PluginProcessor.h"/>
+      <FILE id="fGebvM" name="PluginEditor.cpp" compile="1" resource="0" file="Source/PluginEditor.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>
@@ -46,8 +37,7 @@
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
-            useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

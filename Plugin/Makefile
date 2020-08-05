@@ -4,3 +4,4 @@ updateCMake:
 
 format:
 	@(clang-format -i -style=file Source/*)
+	@(xmllint -format --output FunFilter.jucer FunFilter.jucer)
