@@ -64,22 +64,35 @@ void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
                                             [[maybe_unused]] int samplesPerBlock)
 {
   sampleRate = newSampleRate;
-  updateFilters();
+  smoothedFilterFrequency.reset(newSampleRate, 0.001);
+  smoothedFilterFrequency.setCurrentAndTargetValue(frequencies[currentFrequencyIndex]);
+  for (auto& filter : filters)
+  {
+    filter.reset();
+    filter.setCoefficients(juce::IIRCoefficients::makeLowPass(
+      sampleRate, frequencies[currentFrequencyIndex], q));
+  }
 }
 
 void FunFilterAudioProcessor::releaseResources()
 {
 }
 
-void FunFilterAudioProcessor::updateFilters() noexcept
+void FunFilterAudioProcessor::updateSmootherTargetFrequency() noexcept
+{
+  assert(currentFrequencyIndex < frequencies.size());
+  smoothedFilterFrequency.setTargetValue(frequencies[currentFrequencyIndex]);
+  nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
+}
+
+void FunFilterAudioProcessor::updateFiltersFrequency() noexcept
 {
   assert(currentFrequencyIndex < frequencies.size());
   for (auto& filter : filters)
   {
     filter.setCoefficients(juce::IIRCoefficients::makeLowPass(
-      sampleRate, frequencies[currentFrequencyIndex], q));
+      sampleRate, smoothedFilterFrequency.getNextValue(), q));
   }
-  nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
 }
 
 bool FunFilterAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
@@ -127,15 +140,21 @@ void FunFilterAudioProcessor::processBlock(
     if (nbSamplesLeftBeforeNextStep == 0)
     {
       currentFrequencyIndex = (currentFrequencyIndex + 1) % frequencies.size();
-      updateFilters();
+      updateSmootherTargetFrequency();
     }
 
-    for (auto channel = 0;
-         channel < std::min(totalNumInputChannels, static_cast<int>(filters.size()));
-         ++channel)
+    for (auto sampleIndex = nbProcessedSamples;
+         sampleIndex < nbProcessedSamples + nbSamplesToProcess; ++sampleIndex)
     {
-      filters[channel].processSamples(
-        buffer.getWritePointer(channel) + nbProcessedSamples, nbSamplesToProcess);
+      updateFiltersFrequency();
+      for (auto channel = 0;
+           channel < std::min(totalNumInputChannels, static_cast<int>(filters.size()));
+           ++channel)
+      {
+        const auto outputSample =
+          filters[channel].processSingleSampleRaw(buffer.getSample(channel, sampleIndex));
+        buffer.setSample(channel, sampleIndex, outputSample);
+      }
     }
     nbProcessedSamples += nbSamplesToProcess;
     nbSamplesLeftBeforeNextStep -= nbSamplesToProcess;

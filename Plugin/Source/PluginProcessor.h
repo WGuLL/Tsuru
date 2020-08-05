@@ -38,9 +38,12 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
-  void updateFilters() noexcept;
+  void updateFiltersFrequency() noexcept;
 
+  void updateSmootherTargetFrequency() noexcept;
 
+  juce::SmoothedValue<double, juce::ValueSmoothingTypes::Multiplicative>
+    smoothedFilterFrequency;
   static constexpr auto expectedNbChannels = 2;
   std::array<juce::IIRFilter, expectedNbChannels> filters;
 
@@ -50,7 +53,7 @@ private:
   int filterChoregraphyStepPeriod{0};
 
 
-  static constexpr std::array<double, 4> frequencies{{300, 1500, 1000, 500}};
+  static constexpr std::array<double, 4> frequencies{{300, 1500, 800, 3000}};
   static constexpr double q = 1;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
