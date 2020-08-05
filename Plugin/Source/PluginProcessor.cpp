@@ -66,6 +66,9 @@ void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
 {
     sampleRate = newSampleRate;
     smoothedFilterFrequency.reset(newSampleRate, 0.001);
+    nbSamplesLeftBeforeNextStep = 0;
+    currentFrequencyIndex = 0;
+    nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
     smoothedFilterFrequency.setCurrentAndTargetValue(frequencies[currentFrequencyIndex]);
     for (auto& filter : filters)
     {
