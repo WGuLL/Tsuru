@@ -105,6 +105,15 @@ bool FunFilterAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts)
     return layouts.getMainOutputChannelSet() == layouts.getMainInputChannelSet();
 }
 
+int FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(int bpm) noexcept
+{
+    constexpr auto secInOneMinute = 60;
+    const auto songFreqHz = bpm / secInOneMinute;
+    const auto songPeriodInSamples = sampleRate / songFreqHz;
+    const auto filterChoregraphySteps = static_cast<double>(frequencies.size());
+    return static_cast<int>(songPeriodInSamples / filterChoregraphySteps);
+}
+
 void FunFilterAudioProcessor::processBlock(
     juce::AudioBuffer<float>& buffer, [[maybe_unused]] juce::MidiBuffer& midiMessages)
 {
@@ -116,13 +125,8 @@ void FunFilterAudioProcessor::processBlock(
     juce::AudioPlayHead::CurrentPositionInfo info;
     if (playHead->getCurrentPosition(info))
     {
-        const auto bpm = info.bpm;
-        constexpr auto secInOneMinute = 60;
-        const auto songFreqHz = bpm / secInOneMinute;
-        const auto songPeriodInSamples = sampleRate / songFreqHz;
-        const auto filterChoregraphySteps = static_cast<double>(frequencies.size());
         const auto newFilterChoregraphyStepPeriod =
-            static_cast<int>(songPeriodInSamples / filterChoregraphySteps);
+            calculateChoregraphyPeriodInSamplesFromBpm(info.bpm);
         if (newFilterChoregraphyStepPeriod != filterChoregraphyStepPeriod)
         {
             filterChoregraphyStepPeriod = newFilterChoregraphyStepPeriod;

@@ -48,6 +48,10 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
      *  given by frequency array.
      */
     void nextFilterFrequency() noexcept;
+    /**
+     *  Returns the number of sample between each nextFilterFrequency calls.
+     */
+    [[nodiscard]] int calculateChoregraphyPeriodInSamplesFromBpm(int bpm) noexcept;
 
     juce::SmoothedValue<double, juce::ValueSmoothingTypes::Multiplicative>
         smoothedFilterFrequency;
