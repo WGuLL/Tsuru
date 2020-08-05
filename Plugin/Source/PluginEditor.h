@@ -15,15 +15,15 @@
  */
 class FunFilterEditor : public juce::AudioProcessorEditor
 {
-public:
-  FunFilterEditor(FunFilterAudioProcessor&);
-  ~FunFilterEditor() override;
+  public:
+    FunFilterEditor(FunFilterAudioProcessor&);
+    ~FunFilterEditor() override;
 
-  void paint(juce::Graphics&) override;
-  void resized() override;
+    void paint(juce::Graphics&) override;
+    void resized() override;
 
-private:
-  FunFilterAudioProcessor& audioProcessor;
+  private:
+    FunFilterAudioProcessor& audioProcessor;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };
