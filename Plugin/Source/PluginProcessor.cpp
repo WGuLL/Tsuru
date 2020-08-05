@@ -1,15 +1,16 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <memory>
 
-FunFilterAudioProcessor::FunFilterAudioProcessor()
+FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true))
 {
 }
 
-FunFilterAudioProcessor::~FunFilterAudioProcessor() = default;
+FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
 
 const juce::String FunFilterAudioProcessor::getName() const
 {
@@ -78,8 +79,9 @@ void FunFilterAudioProcessor::releaseResources()
 {
 }
 
-void FunFilterAudioProcessor::updateSmootherTargetFrequency() noexcept
+void FunFilterAudioProcessor::nextFilterFrequency() noexcept
 {
+    currentFrequencyIndex = (currentFrequencyIndex + 1) % frequencies.size();
     assert(currentFrequencyIndex < frequencies.size());
     smoothedFilterFrequency.setTargetValue(frequencies[currentFrequencyIndex]);
     nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
@@ -139,8 +141,7 @@ void FunFilterAudioProcessor::processBlock(
 
         if (nbSamplesLeftBeforeNextStep == 0)
         {
-            currentFrequencyIndex = (currentFrequencyIndex + 1) % frequencies.size();
-            updateSmootherTargetFrequency();
+            nextFilterFrequency();
         }
 
         for (auto sampleIndex = nbProcessedSamples;
@@ -165,12 +166,12 @@ void FunFilterAudioProcessor::processBlock(
 
 bool FunFilterAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true;
 }
 
 juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
 {
-    return new FunFilterEditor(*this);
+    return std::make_unique<FunFilterEditor>(*this).release();
 }
 
 void FunFilterAudioProcessor::getStateInformation([
@@ -185,5 +186,5 @@ void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* d
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new FunFilterAudioProcessor();
+    return std::make_unique<FunFilterAudioProcessor>().release();
 }
