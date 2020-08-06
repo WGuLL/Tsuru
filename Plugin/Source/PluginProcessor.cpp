@@ -124,15 +124,18 @@ void FunFilterAudioProcessor::processBlock(
     const auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     auto* playHead = getPlayHead();
-    juce::AudioPlayHead::CurrentPositionInfo info;
-    if (playHead->getCurrentPosition(info))
+    if (playHead != nullptr)
     {
-        const auto newFilterChoregraphyStepPeriod =
-            calculateChoregraphyPeriodInSamplesFromBpm(info.bpm);
-        if (newFilterChoregraphyStepPeriod != filterChoregraphyStepPeriod)
+        juce::AudioPlayHead::CurrentPositionInfo info;
+        if (playHead->getCurrentPosition(info))
         {
-            filterChoregraphyStepPeriod = newFilterChoregraphyStepPeriod;
-            nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
+            const auto newFilterChoregraphyStepPeriod =
+                calculateChoregraphyPeriodInSamplesFromBpm(info.bpm);
+            if (newFilterChoregraphyStepPeriod != filterChoregraphyStepPeriod)
+            {
+                filterChoregraphyStepPeriod = newFilterChoregraphyStepPeriod;
+                nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
+            }
         }
     }
 
