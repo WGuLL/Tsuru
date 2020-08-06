@@ -1,29 +1,29 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
 
 #pragma once
 
 #include "PluginProcessor.h"
+#include "UiBroadcaster.h"
 #include <JuceHeader.h>
 
 /**
  */
-class FunFilterEditor : public juce::AudioProcessorEditor
+class FunFilterEditor : public juce::AudioProcessorEditor,
+                        public UiBroadcastedValueListener
 {
   public:
-    FunFilterEditor(FunFilterAudioProcessor&);
+    FunFilterEditor(FunFilterAudioProcessor&, UiBroadcaster& broadcaster);
     ~FunFilterEditor() override;
 
     void paint(juce::Graphics&) override;
     void resized() override;
 
+    void valueChanged(double value) override;
+
   private:
     FunFilterAudioProcessor& audioProcessor;
+    UiBroadcaster& broadcaster;
+
+    double cutoffValue{0.};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };

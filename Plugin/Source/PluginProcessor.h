@@ -2,6 +2,7 @@
 #pragma once
 
 #include "JuceHeaderWrapper.h"
+#include "UiBroadcaster.h"
 
 /**
  * Implements the callbacks coming from the DAW.
@@ -62,6 +63,8 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     double sampleRate{44100};
     size_t currentFrequencyIndex{0};
     int filterChoregraphyStepPeriod{0};
+
+    UiBroadcaster broadcaster;
 
     static constexpr auto choregraphyLengthInBeats{2};
     static constexpr auto filterChoregraphyNbSteps{4};

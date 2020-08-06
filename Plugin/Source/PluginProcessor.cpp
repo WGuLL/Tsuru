@@ -70,6 +70,7 @@ void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
     currentFrequencyIndex = 0;
     nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
     smoothedFilterFrequency.setCurrentAndTargetValue(frequencies[currentFrequencyIndex]);
+    broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
     for (auto& filter : filters)
     {
         filter.reset();
@@ -87,6 +88,7 @@ void FunFilterAudioProcessor::nextFilterFrequency() noexcept
     currentFrequencyIndex = (currentFrequencyIndex + 1) % frequencies.size();
     assert(currentFrequencyIndex < frequencies.size());
     smoothedFilterFrequency.setTargetValue(frequencies[currentFrequencyIndex]);
+    broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
     nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
 }
 
@@ -183,7 +185,7 @@ bool FunFilterAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
 {
-    return std::make_unique<FunFilterEditor>(*this).release();
+    return std::make_unique<FunFilterEditor>(*this, broadcaster).release();
 }
 
 void FunFilterAudioProcessor::getStateInformation([

@@ -7,6 +7,8 @@
       <FILE id="dj5J49" name="PluginProcessor.h" compile="0" resource="0" file="Source/PluginProcessor.h"/>
       <FILE id="fGebvM" name="PluginEditor.cpp" compile="1" resource="0" file="Source/PluginEditor.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="fGebvM" name="UiBroadcaster.cpp" compile="1" resource="0" file="Source/UiBroadcaster.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="BB1V0d" name="UiBroadcaster.h" compile="0" resource="0" file="Source/UiBroadcaster.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

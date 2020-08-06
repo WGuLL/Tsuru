@@ -67,6 +67,8 @@ jucer_project_files("FunFilter/Source"
   .         .         .         "Source/PluginProcessor.h"
   x         .         .         "Source/PluginEditor.cpp"     "AllWarnings"
   .         .         .         "Source/PluginEditor.h"
+  x         .         .         "Source/UiBroadcaster.cpp"    "AllWarnings"
+  .         .         .         "Source/UiBroadcaster.h"
 )
 
 jucer_project_module(
