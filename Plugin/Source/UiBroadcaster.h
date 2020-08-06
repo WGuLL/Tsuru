@@ -20,6 +20,9 @@ class UiBroadcastedValueListener
 {
   public:
     virtual ~UiBroadcastedValueListener() = default;
+    /**
+     * Called by the message thread when the value has changed.
+     */
     virtual void valueChanged(double newValue) = 0;
 };
 /**
@@ -28,38 +31,27 @@ class UiBroadcastedValueListener
 class BroadcastedValue
 {
   public:
-    void setValue(double newValue)
-    {
-        value.store(newValue);
-        changed.clear();
-    }
-
-    void notifyListenersIfNecessary() noexcept
-    {
-        if (!changed.test_and_set())
-        {
-            for (const auto& listener : listeners)
-            {
-                listener.get().valueChanged(value.load());
-            }
-        }
-    }
-
-    void addListener(UiBroadcastedValueListener& listener) noexcept
-    {
-        listeners.emplace_back(listener);
-    }
-
-    void removeListener(UiBroadcastedValueListener& listenerToRemove) noexcept
-    {
-        listeners.erase(std::remove_if(begin(listeners), end(listeners),
-                                       [&listenerToRemove](const auto& listener) {
-                                           return std::addressof(listenerToRemove)
-                                                  == std::addressof(listener.get());
-                                       }),
-                        end(listeners));
-        listeners.emplace_back(listenerToRemove);
-    }
+    /**
+     * Can be called from the audio thread when the
+     * corresponding value has changed.
+     * The listeners will be notified on the message thread at the next
+     * notifyListenersIfNecessary call.
+     */
+    void setValue(double newValue) noexcept;
+    /**
+     *  Must be called from the message thread.
+     *  The listener will be notified if the value has changed.
+     */
+    void notifyListenersIfNecessary() noexcept;
+    /**
+     *  The given listener will be notified from the audio thread if the value has
+     * changed.
+     */
+    void addListener(UiBroadcastedValueListener& listener) noexcept;
+    /**
+     *  Removes the given listener from the list of listener.
+     */
+    void removeListener(UiBroadcastedValueListener& listenerToRemove) noexcept;
 
   private:
     std::vector<std::reference_wrapper<UiBroadcastedValueListener>> listeners;
@@ -76,11 +68,7 @@ class UiBroadcaster : public juce::Timer
 {
   public:
     static constexpr auto guiRefreshPeriod = 30ms;
-
-    UiBroadcaster()
-    {
-        startTimer(static_cast<int>(guiRefreshPeriod.count()));
-    }
+    UiBroadcaster();
 
     template <ValueIds valueId>
     void setValue(double value) noexcept
@@ -94,15 +82,8 @@ class UiBroadcaster : public juce::Timer
         return values[static_cast<size_t>(valueId)];
     }
 
-    void timerCallback() override
-    {
-        for (auto& value : values)
-        {
-            value.notifyListenersIfNecessary();
-        }
-    }
-
   private:
+    void timerCallback() override;
     std::array<BroadcastedValue, static_cast<size_t>(ValueIds::nbValues)> values;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(UiBroadcaster)
 };
