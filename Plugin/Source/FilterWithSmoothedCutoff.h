@@ -32,7 +32,7 @@ class FilterWithSmoothedCutoff
         smoothedFilterFrequency;
     double sampleRate{0};
     static constexpr double q = 1.5;
-    static constexpr auto rampSize = 0.001;
+    static constexpr std::chrono::duration<double> rampSize{0.01};
     static constexpr auto expectedNbChannels = 2;
     std::array<juce::IIRFilter, expectedNbChannels> filters;
 };

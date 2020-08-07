@@ -5,7 +5,7 @@ void FilterWithSmoothedCutoff::setSampleRate(double newSampleRate) noexcept
 {
     sampleRate = newSampleRate;
     const auto currentTargetFrequency = smoothedFilterFrequency.getTargetValue();
-    smoothedFilterFrequency.reset(sampleRate, rampSize);
+    smoothedFilterFrequency.reset(sampleRate, rampSize.count());
     smoothedFilterFrequency.setCurrentAndTargetValue(currentTargetFrequency);
     for (auto& filter : filters)
     {
