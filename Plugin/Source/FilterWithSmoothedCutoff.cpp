@@ -38,6 +38,7 @@ void FilterWithSmoothedCutoff::process(juce::AudioBuffer<float>& inputAudioBuffe
         {
             const auto outputSample = filters[channel].processSingleSampleRaw(
                 inputAudioBuffer.getSample(channel, sampleIndex));
+            assert(!std::isnan(outputSample));
             inputAudioBuffer.setSample(channel, sampleIndex, outputSample);
         }
     }
