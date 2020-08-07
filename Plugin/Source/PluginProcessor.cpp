@@ -137,17 +137,17 @@ void FunFilterAudioProcessor::processBlock(
         const auto nbSamplesToProcess =
             std::min(nbSamplesLeftBeforeNextStep, nbSamplesLeftToProcess);
 
-        if (nbSamplesLeftBeforeNextStep == 0)
-        {
-            nextFilterFrequency();
-        }
-
-        filter.process(buffer, nbProcessedSamples, nbSamplesLeftToProcess);
+        filter.process(buffer, nbProcessedSamples, nbSamplesToProcess);
 
         nbProcessedSamples += nbSamplesToProcess;
         nbSamplesLeftBeforeNextStep -= nbSamplesToProcess;
         assert(nbSamplesLeftBeforeNextStep >= 0);
         assert(nbProcessedSamples <= buffer.getNumSamples());
+
+        if (nbSamplesLeftBeforeNextStep == 0)
+        {
+            nextFilterFrequency();
+        }
     }
 }
 
