@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "FilterWithSmoothedCutoff.h"
 #include "JuceHeaderWrapper.h"
 #include "UiBroadcaster.h"
 
@@ -41,10 +42,6 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
 
   private:
     /**
-     *  Updates the filters to the frequency value given by the smoothers.
-     */
-    void updateFiltersFrequency() noexcept;
-    /**
      *  Changes the target value of the smoother to the next value
      *  given by frequency array.
      */
@@ -54,10 +51,7 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
      */
     [[nodiscard]] int calculateChoregraphyPeriodInSamplesFromBpm(int bpm) noexcept;
 
-    juce::SmoothedValue<double, juce::ValueSmoothingTypes::Multiplicative>
-        smoothedFilterFrequency;
-    static constexpr auto expectedNbChannels = 2;
-    std::array<juce::IIRFilter, expectedNbChannels> filters;
+    FilterWithSmoothedCutoff filter;
 
     int nbSamplesLeftBeforeNextStep{0};
     double sampleRate{44100};
@@ -70,7 +64,6 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     static constexpr auto filterChoregraphyNbSteps{4};
     static constexpr std::array<double, filterChoregraphyNbSteps> frequencies{
         {300, 1500, 800, 3000}};
-    static constexpr double q = 1.5;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
 };

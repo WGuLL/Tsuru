@@ -65,18 +65,12 @@ void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
                                             [[maybe_unused]] int samplesPerBlock)
 {
     sampleRate = newSampleRate;
-    smoothedFilterFrequency.reset(newSampleRate, 0.001);
     nbSamplesLeftBeforeNextStep = 0;
     currentFrequencyIndex = 0;
     nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
-    smoothedFilterFrequency.setCurrentAndTargetValue(frequencies[currentFrequencyIndex]);
     broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
-    for (auto& filter : filters)
-    {
-        filter.reset();
-        filter.setCoefficients(juce::IIRCoefficients::makeLowPass(
-            sampleRate, frequencies[currentFrequencyIndex], q));
-    }
+    filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
+    filter.setSampleRate(newSampleRate);
 }
 
 void FunFilterAudioProcessor::releaseResources()
@@ -87,19 +81,9 @@ void FunFilterAudioProcessor::nextFilterFrequency() noexcept
 {
     currentFrequencyIndex = (currentFrequencyIndex + 1) % frequencies.size();
     assert(currentFrequencyIndex < frequencies.size());
-    smoothedFilterFrequency.setTargetValue(frequencies[currentFrequencyIndex]);
+    filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
     broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
     nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
-}
-
-void FunFilterAudioProcessor::updateFiltersFrequency() noexcept
-{
-    assert(currentFrequencyIndex < frequencies.size());
-    for (auto& filter : filters)
-    {
-        filter.setCoefficients(juce::IIRCoefficients::makeLowPass(
-            sampleRate, smoothedFilterFrequency.getNextValue(), q));
-    }
 }
 
 bool FunFilterAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
@@ -158,19 +142,8 @@ void FunFilterAudioProcessor::processBlock(
             nextFilterFrequency();
         }
 
-        for (auto sampleIndex = nbProcessedSamples;
-             sampleIndex < nbProcessedSamples + nbSamplesToProcess; ++sampleIndex)
-        {
-            updateFiltersFrequency();
-            for (auto channel = 0; channel < std::min(totalNumInputChannels,
-                                                      static_cast<int>(filters.size()));
-                 ++channel)
-            {
-                const auto outputSample = filters[channel].processSingleSampleRaw(
-                    buffer.getSample(channel, sampleIndex));
-                buffer.setSample(channel, sampleIndex, outputSample);
-            }
-        }
+        filter.process(buffer, nbProcessedSamples, nbSamplesLeftToProcess);
+
         nbProcessedSamples += nbSamplesToProcess;
         nbSamplesLeftBeforeNextStep -= nbSamplesToProcess;
         assert(nbSamplesLeftBeforeNextStep >= 0);
