@@ -49,14 +49,14 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     /**
      *  Returns the number of sample between each nextFilterFrequency calls.
      */
-    [[nodiscard]] int calculateChoregraphyPeriodInSamplesFromBpm(int bpm) noexcept;
+    [[nodiscard]] double calculateChoregraphyPeriodInSamplesFromBpm(double bpm) noexcept;
 
     FilterWithSmoothedCutoff filter;
 
-    int nbSamplesLeftBeforeNextStep{0};
+    double nbSamplesLeftBeforeNextStep{0};
     double sampleRate{44100};
     size_t currentFrequencyIndex{0};
-    int filterChoregraphyStepPeriod{0};
+    double filterChoregraphyStepPeriodInSamples{1};
 
     UiBroadcaster broadcaster;
 

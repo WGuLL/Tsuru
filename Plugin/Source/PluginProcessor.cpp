@@ -67,7 +67,7 @@ void FunFilterAudioProcessor::prepareToPlay(double newSampleRate,
     sampleRate = newSampleRate;
     nbSamplesLeftBeforeNextStep = 0;
     currentFrequencyIndex = 0;
-    nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
+    nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriodInSamples;
     broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
     filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
     filter.setSampleRate(newSampleRate);
@@ -83,7 +83,7 @@ void FunFilterAudioProcessor::nextFilterFrequency() noexcept
     assert(currentFrequencyIndex < frequencies.size());
     filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
     broadcaster.setValue<ValueIds::filterCutoff>(frequencies[currentFrequencyIndex]);
-    nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
+    nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriodInSamples;
 }
 
 bool FunFilterAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
@@ -91,7 +91,8 @@ bool FunFilterAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts)
     return layouts.getMainOutputChannelSet() == layouts.getMainInputChannelSet();
 }
 
-int FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(int bpm) noexcept
+double
+FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(double bpm) noexcept
 {
     constexpr auto secInOneMinute = 60;
     const auto songFreqHz = bpm / secInOneMinute;
@@ -99,7 +100,7 @@ int FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(int bpm)
     const auto choregraphyPeriodInSamples =
         songPeriodInSamples * choregraphyLengthInBeats;
     const auto filterChoregraphySteps = static_cast<double>(frequencies.size());
-    return static_cast<int>(choregraphyPeriodInSamples / filterChoregraphySteps);
+    return choregraphyPeriodInSamples / filterChoregraphySteps;
 }
 
 void FunFilterAudioProcessor::processBlock(
@@ -115,13 +116,17 @@ void FunFilterAudioProcessor::processBlock(
         juce::AudioPlayHead::CurrentPositionInfo info;
         if (playHead->getCurrentPosition(info))
         {
-            const auto newFilterChoregraphyStepPeriod =
+            const auto timeInSamples = info.timeInSamples;
+            filterChoregraphyStepPeriodInSamples =
                 calculateChoregraphyPeriodInSamplesFromBpm(info.bpm);
-            if (newFilterChoregraphyStepPeriod != filterChoregraphyStepPeriod)
-            {
-                filterChoregraphyStepPeriod = newFilterChoregraphyStepPeriod;
-                nbSamplesLeftBeforeNextStep = filterChoregraphyStepPeriod;
-            }
+            currentFrequencyIndex =
+                (timeInSamples
+                 / static_cast<int64_t>(filterChoregraphyStepPeriodInSamples))
+                % frequencies.size();
+            nbSamplesLeftBeforeNextStep =
+                timeInSamples
+                % static_cast<int64_t>(filterChoregraphyStepPeriodInSamples);
+            filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
         }
     }
 
@@ -134,8 +139,8 @@ void FunFilterAudioProcessor::processBlock(
     while (nbProcessedSamples < buffer.getNumSamples())
     {
         const auto nbSamplesLeftToProcess = buffer.getNumSamples() - nbProcessedSamples;
-        const auto nbSamplesToProcess =
-            std::min(nbSamplesLeftBeforeNextStep, nbSamplesLeftToProcess);
+        const auto nbSamplesToProcess = std::min(
+            static_cast<int>(nbSamplesLeftBeforeNextStep), nbSamplesLeftToProcess);
 
         filter.process(buffer, nbProcessedSamples, nbSamplesToProcess);
 
