@@ -10,6 +10,7 @@
 class FilterWithSmoothedCutoff
 {
   public:
+    FilterWithSmoothedCutoff() noexcept;
     /**
      * Notified when the plugin's sample rate changes.
      */
@@ -30,7 +31,7 @@ class FilterWithSmoothedCutoff
 
     juce::SmoothedValue<double, juce::ValueSmoothingTypes::Multiplicative>
         smoothedFilterFrequency;
-    double sampleRate{0};
+    double sampleRate{44100};
     static constexpr double q = 1.5;
     static constexpr std::chrono::duration<double> rampSize{0.01};
     static constexpr auto expectedNbChannels = 2;

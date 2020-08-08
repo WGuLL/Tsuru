@@ -1,6 +1,13 @@
 
 #include "FilterWithSmoothedCutoff.h"
 
+FilterWithSmoothedCutoff::FilterWithSmoothedCutoff() noexcept
+{
+    constexpr auto defaultFrequency = 300;
+    smoothedFilterFrequency.setCurrentAndTargetValue(defaultFrequency);
+    setSampleRate(sampleRate);
+}
+
 void FilterWithSmoothedCutoff::setSampleRate(double newSampleRate) noexcept
 {
     sampleRate = newSampleRate;
@@ -46,5 +53,9 @@ void FilterWithSmoothedCutoff::process(juce::AudioBuffer<float>& inputAudioBuffe
 
 void FilterWithSmoothedCutoff::setFilterCutoffFrequency(double newFrequency) noexcept
 {
+    constexpr auto arbitraryMin = 25;
+    constexpr auto arbitraryMax = 15000;
+    constexpr juce::Range<double> acceptableValues(arbitraryMin, arbitraryMax);
+    assert(acceptableValues.contains(newFrequency));
     smoothedFilterFrequency.setTargetValue(newFrequency);
 }
