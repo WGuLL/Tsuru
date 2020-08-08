@@ -41,9 +41,9 @@ void FunFilterEditor::drawFrequencyVerticalLine(int frequency, juce::Graphics& g
 {
     const auto linePosX = proportionOfWidth(range.convertTo0to1(frequency));
     g.drawVerticalLine(linePosX, 0, getHeight());
-    g.drawText(juce::String(frequency), linePosX, proportionOfHeight(0.7f),
-               proportionOfWidth(0.1f), proportionOfHeight(0.1f),
-               juce::Justification::centredLeft);
+    g.drawText(juce::String(frequency), linePosX + proportionOfWidth(0.02f),
+               proportionOfHeight(0.7f), proportionOfWidth(0.1f),
+               proportionOfHeight(0.1f), juce::Justification::centredLeft);
 }
 
 void FunFilterEditor::drawFilterShape(int frequency, juce::Graphics& g) const
