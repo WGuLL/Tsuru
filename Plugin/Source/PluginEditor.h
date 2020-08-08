@@ -11,7 +11,7 @@ class FunFilterEditor : public juce::AudioProcessorEditor,
                         public UiBroadcastedValueListener
 {
   public:
-    FunFilterEditor(FunFilterAudioProcessor&, UiBroadcaster& broadcaster);
+    FunFilterEditor(FunFilterAudioProcessor&, UiBroadcaster& broadcaster) noexcept;
     ~FunFilterEditor() override;
 
     void paint(juce::Graphics&) override;
@@ -20,6 +20,13 @@ class FunFilterEditor : public juce::AudioProcessorEditor,
     void valueChanged(double value) override;
 
   private:
+    /**
+     * setColour has to be called first.
+     */
+    void drawFrequencyVerticalLine(int frequency, juce::Graphics& g) const;
+
+    const juce::NormalisableRange<float> range;
+
     FunFilterAudioProcessor& audioProcessor;
     UiBroadcaster& broadcaster;
 
