@@ -9,16 +9,22 @@ const juce::Colour mediumSlateBlue(118, 120, 237);
 const juce::Colour selectiveYellow(247, 184, 1);
 const juce::Colour tangerine(241, 135, 1);
 const juce::Colour orangePantone(243, 91, 4);
-[[nodiscard]] NormalisableRange<float>
-frequencyRange(float min, float max, float interval) noexcept
+
+[[nodiscard]] NormalisableRange<float> frequencyRange(float min, float max) noexcept
 {
-    return {min, max, interval, 1.f / std::log2(1.f + std::sqrt(max / min))};
+    constexpr auto convertFrom0To1Func = [](auto min, auto max, auto value) {
+        return juce::mapToLog10(value, min, max);
+    };
+    constexpr auto convertTo0To1Func = [](auto min, auto max, auto value) {
+        return juce::mapFromLog10(value, min, max);
+    };
+    return {min, max, convertFrom0To1Func, convertTo0To1Func};
 }
 } // namespace
 
 FunFilterEditor::FunFilterEditor(FunFilterAudioProcessor& p, UiBroadcaster& b) noexcept
     : AudioProcessorEditor(&p)
-    , range(frequencyRange(25, 20000, 1))
+    , range(frequencyRange(25.f, 20000.f))
     , audioProcessor(p)
     , broadcaster(b)
 {
