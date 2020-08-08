@@ -32,7 +32,7 @@ class FunFilterEditor : public juce::AudioProcessorEditor,
     FunFilterAudioProcessor& audioProcessor;
     UiBroadcaster& broadcaster;
 
-    double cutoffValue{0.};
+    double cutoffValue{1000};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };
