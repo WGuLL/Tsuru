@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="QP1hIV" name="FunFilter" projectType="audioplug" useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="0" jucerFormatVersion="1" version="0.0.1" companyEmail="fabien.roussel.1992@gmail.com" cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Kaisha" pluginFormats="buildAU,buildVST3,buildStandalone">
-  <MAINGROUP id="aYrAzy" name="FunFilter">
+<JUCERPROJECT id="QP1hIV" name="Tsuru" projectType="audioplug" useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="0" jucerFormatVersion="1" version="0.0.1" companyEmail="fabien.roussel.1992@gmail.com" cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Symbel" pluginFormats="buildAU,buildVST3,buildStandalone">
+  <MAINGROUP id="aYrAzy" name="Tsuru">
     <GROUP id="{2CBC4F03-F194-7E02-C996-52E8B80262EC}" name="Source">
       <FILE id="Yk2PDq" name="JuceHeaderWrapper.h" compile="0" resource="0" file="Source/JuceHeaderWrapper.h"/>
       <FILE id="hEKjZo" name="PluginProcessor.cpp" compile="1" resource="0" file="Source/PluginProcessor.cpp" compilerFlagScheme="AllWarnings"/>
@@ -17,8 +17,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" AllWarnings="-Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-overflow=5 -Wno-unused -Wno-variadic-macros -Wundef -Wno-parentheses -Wold-style-cast -fdiagnostics-show-option">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="FunFilterDebug"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="FunFilter"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="Tsuru"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="Tsuru"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../ThirdParty/JUCE/modules"/>

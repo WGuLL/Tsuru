@@ -2,7 +2,7 @@
 
 cmake_minimum_required(VERSION 3.4)
 
-project("FunFilter")
+project("Tsuru")
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../ThirdParty/FRUT/prefix/FRUT/cmake")
@@ -24,14 +24,14 @@ jucer_project_begin(
 )
 
 jucer_project_settings(
-  PROJECT_NAME "FunFilter"
+  PROJECT_NAME "Tsuru"
   PROJECT_VERSION "0.0.1"
-  COMPANY_NAME "Kaisha"
+  COMPANY_NAME "Symbel"
   COMPANY_EMAIL "fabien.roussel.1992@gmail.com"
   REPORT_JUCE_APP_USAGE ON # Required for closed source applications without an Indie or Pro JUCE license
   DISPLAY_THE_JUCE_SPLASH_SCREEN OFF # Required for closed source applications without an Indie or Pro JUCE license
   PROJECT_TYPE "Audio Plug-in"
-  BUNDLE_IDENTIFIER "com.Kaisha.FunFilter"
+  BUNDLE_IDENTIFIER "com.Symbel.Tsuru"
   CXX_LANGUAGE_STANDARD "C++17"
 )
 
@@ -41,14 +41,14 @@ jucer_audio_plugin_settings(
     "AU"
     "Standalone"
   # PLUGIN_CHARACTERISTICS
-  PLUGIN_NAME "FunFilter"
-  PLUGIN_DESCRIPTION "FunFilter"
-  PLUGIN_MANUFACTURER "Kaisha"
+  PLUGIN_NAME "Tsuru"
+  PLUGIN_DESCRIPTION "Tsuru"
+  PLUGIN_MANUFACTURER "Symbel"
   PLUGIN_MANUFACTURER_CODE "Manu"
   PLUGIN_CODE "Qp1h"
   # PLUGIN_CHANNEL_CONFIGURATIONS
-  PLUGIN_AAX_IDENTIFIER "com.Kaisha.FunFilter"
-  PLUGIN_AU_EXPORT_PREFIX "FunFilterAU"
+  PLUGIN_AAX_IDENTIFIER "com.Symbel.Tsuru"
+  PLUGIN_AU_EXPORT_PREFIX "TsuruAU"
   PLUGIN_AU_MAIN_TYPE "kAudioUnitType_Effect"
   PLUGIN_VST3_CATEGORY
     "Fx"
@@ -59,7 +59,7 @@ jucer_audio_plugin_settings(
   PLUGIN_VST_LEGACY_CATEGORY "kPlugCategEffect"
 )
 
-jucer_project_files("FunFilter/Source"
+jucer_project_files("Tsuru/Source"
 # Compile   Xcode     Binary    File                                   Compiler Flag
 #           Resource  Resource                                         Scheme
   .         .         .         "Source/JuceHeaderWrapper.h"
@@ -208,14 +208,14 @@ jucer_export_target_configuration(
   "Xcode (MacOSX)"
   NAME "Debug"
   DEBUG_MODE ON
-  BINARY_NAME "FunFilterDebug"
+  BINARY_NAME "Tsuru"
 )
 
 jucer_export_target_configuration(
   "Xcode (MacOSX)"
   NAME "Release"
   DEBUG_MODE OFF
-  BINARY_NAME "FunFilter"
+  BINARY_NAME "Tsuru"
 )
 
 jucer_project_end()
