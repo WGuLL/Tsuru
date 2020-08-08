@@ -24,8 +24,10 @@ class FunFilterEditor : public juce::AudioProcessorEditor,
      * setColour has to be called first.
      */
     void drawFrequencyVerticalLine(int frequency, juce::Graphics& g) const;
+    void drawFilterShape(int frequency, juce::Graphics& g) const;
 
     const juce::NormalisableRange<float> range;
+    static constexpr std::array<int, 3> graduatedFrequencies{{100, 1000, 10000}};
 
     FunFilterAudioProcessor& audioProcessor;
     UiBroadcaster& broadcaster;

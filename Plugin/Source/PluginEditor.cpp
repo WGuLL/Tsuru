@@ -46,17 +46,33 @@ void FunFilterEditor::drawFrequencyVerticalLine(int frequency, juce::Graphics& g
                juce::Justification::centredLeft);
 }
 
+void FunFilterEditor::drawFilterShape(int frequency, juce::Graphics& g) const
+{
+    const auto targetFrequencyPosX = proportionOfWidth(range.convertTo0to1(frequency));
+    juce::Path p;
+    p.startNewSubPath(0.f, proportionOfHeight(0.5f));
+    p.quadraticTo(targetFrequencyPosX, proportionOfHeight(0.5f), targetFrequencyPosX,
+                  proportionOfHeight(0.35f));
+    p.quadraticTo(targetFrequencyPosX, proportionOfHeight(0.4f),
+                  targetFrequencyPosX + proportionOfWidth(0.1f), getHeight());
+    constexpr auto strokeThickness{2};
+    g.strokePath(p, juce::PathStrokeType(strokeThickness));
+}
+
 void FunFilterEditor::paint(juce::Graphics& g)
 {
     g.fillAll(darkSlateBlue);
 
     g.setColour(mediumSlateBlue);
-    drawFrequencyVerticalLine(100, g);
-    drawFrequencyVerticalLine(1000, g);
-    drawFrequencyVerticalLine(10000, g);
+    g.drawRoundedRectangle(getLocalBounds().toFloat(), getHeight() * 0.05f,
+                           getHeight() * 0.05f);
+    for (const auto& graduatedFrequency : graduatedFrequencies)
+    {
+        drawFrequencyVerticalLine(graduatedFrequency, g);
+    }
 
     g.setColour(selectiveYellow);
-    drawFrequencyVerticalLine(cutoffValue, g);
+    drawFilterShape(cutoffValue, g);
 }
 
 void FunFilterEditor::resized()
