@@ -29,7 +29,7 @@ jucer_project_settings(
   COMPANY_NAME "Kaisha"
   COMPANY_EMAIL "fabien.roussel.1992@gmail.com"
   REPORT_JUCE_APP_USAGE ON # Required for closed source applications without an Indie or Pro JUCE license
-  DISPLAY_THE_JUCE_SPLASH_SCREEN ON # Required for closed source applications without an Indie or Pro JUCE license
+  DISPLAY_THE_JUCE_SPLASH_SCREEN OFF # Required for closed source applications without an Indie or Pro JUCE license
   PROJECT_TYPE "Audio Plug-in"
   BUNDLE_IDENTIFIER "com.Kaisha.FunFilter"
   CXX_LANGUAGE_STANDARD "C++17"
