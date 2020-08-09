@@ -13,12 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+      with:
+        submodules: 'recursive'
     - name: Tsuru release compilation
       run: |
         brew install cmake
-        git submodule init
-        git submodule update
         mkdir build
         cd build
         cmake ..
