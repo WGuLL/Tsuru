@@ -32,7 +32,7 @@ FunFilterEditor::~FunFilterEditor()
     broadcaster.getValue<ValueIds::filterCutoff>().removeListener(*this);
 }
 
-void FunFilterEditor::valueChanged(double value)
+void FunFilterEditor::onBroadcastedValueChange(double value)
 {
     cutoffValue = value;
     repaint();

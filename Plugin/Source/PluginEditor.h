@@ -1,9 +1,9 @@
 
 #pragma once
 
+#include "JuceHeaderWrapper.h"
 #include "PluginProcessor.h"
 #include "UiBroadcaster.h"
-#include <JuceHeader.h>
 
 /**
  */
@@ -17,7 +17,7 @@ class FunFilterEditor : public juce::AudioProcessorEditor,
     void paint(juce::Graphics&) override;
     void resized() override;
 
-    void valueChanged(double value) override;
+    void onBroadcastedValueChange(double value) override;
 
   private:
     /**

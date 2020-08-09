@@ -14,7 +14,7 @@ void BroadcastedValue::notifyListenersIfNecessary() noexcept
     {
         for (const auto& listener : listeners)
         {
-            listener.get().valueChanged(value.load());
+            listener.get().onBroadcastedValueChange(value.load());
         }
     }
 }

@@ -7,19 +7,14 @@
  */
 class ResonanceKnob : public juce::Slider, public UiBroadcastedValueListener
 {
-public:
-    ResonanceKnob (UiBroadcaster& broadcaster_, std::function<void(double)> setResFunc) : juce::Slider (juce::Slider::RotaryVerticalDrag, juce::Slider::NoTextBox), broadcaster(broadcaster_)
-    {
-        setNormalisableRange ({0.01, 2.});
-        onValueChange (std::function<void()>([setResFunc, this](){setResFunc (getValue());
-        }));
-    }
-    
-     void valueChanged(double newValue) override
-    {
-        setValue (newValue, juce::dontSendNotification);
-    }
-    
-private:
+  public:
+    ResonanceKnob(UiBroadcaster& broadcaster_,
+                  std::function<void(double)> setResFunc) noexcept;
+
+    ~ResonanceKnob() noexcept;
+
+    void onBroadcastedValueChange(double newValue) override;
+
+  private:
     UiBroadcaster& broadcaster;
 };
