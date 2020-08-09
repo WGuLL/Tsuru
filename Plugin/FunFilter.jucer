@@ -11,6 +11,8 @@
       <FILE id="BB1V0d" name="UiBroadcaster.h" compile="0" resource="0" file="Source/UiBroadcaster.h"/>
       <FILE id="fGebvM" name="FilterWithSmoothedCutoff.cpp" compile="1" resource="0" file="Source/FilterWithSmoothedCutoff.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="FilterWithSmoothedCutoff.h" compile="0" resource="0" file="Source/FilterWithSmoothedCutoff.h"/>
+      <FILE id="fGebvM" name="ResonanceKnob.cpp" compile="1" resource="0" file="Source/ResonanceKnob.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="BB1V0d" name="ResonanceKnob.h" compile="0" resource="0" file="Source/ResonanceKnob.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

@@ -68,6 +68,8 @@ jucer_project_files("Tsuru/Source"
   .         .         .         "Source/UiBroadcaster.h"
   x         .         .         "Source/FilterWithSmoothedCutoff.cpp"  "AllWarnings"
   .         .         .         "Source/FilterWithSmoothedCutoff.h"
+  x         .         .         "Source/ResonanceKnob.cpp"             "AllWarnings"
+  .         .         .         "Source/ResonanceKnob.h"
 )
 
 jucer_project_module(
