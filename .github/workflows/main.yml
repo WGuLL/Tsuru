@@ -17,8 +17,12 @@ jobs:
         submodules: 'recursive'
     - name: Tsuru release compilation
       run: |
-        brew install cmake
+        cd ThirdParty/FRUT
+        mkdir build && cd build/
+        cmake .. -DCMAKE_INSTALL_PREFIX="../prefix" -DJUCE_ROOT="../../JUCE"
+        cmake --build . --target install
+        cd ../../..
         mkdir build
         cd build
-        cmake ..
-        cmake --build . -C Release
+        cmake .. -G Xcode
+        cmake --build . --config Release
