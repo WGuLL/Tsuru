@@ -11,6 +11,7 @@ using namespace std::chrono_literals;
 enum class ValueIds : size_t
 {
     filterCutoff,
+    filterResonance,
     nbValues
 };
 /**
