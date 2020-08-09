@@ -13,6 +13,8 @@
       <FILE id="BB1V0d" name="FilterWithSmoothedCutoff.h" compile="0" resource="0" file="Source/FilterWithSmoothedCutoff.h"/>
       <FILE id="fGebvM" name="ResonanceKnob.cpp" compile="1" resource="0" file="Source/ResonanceKnob.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="ResonanceKnob.h" compile="0" resource="0" file="Source/ResonanceKnob.h"/>
+      <FILE id="fGebvM" name="CutoffFrequencyVisualizer.cpp" compile="1" resource="0" file="Source/CutoffFrequencyVisualizer.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="BB1V0d" name="CutoffFrequencyVisualizer.h" compile="0" resource="0" file="Source/CutoffFrequencyVisualizer.h"/>
       <FILE id="fGebvM" name="ColorPalette.cpp" compile="1" resource="0" file="Source/ColorPalette.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="ColorPalette.h" compile="0" resource="0" file="Source/ColorPalette.h"/>
     </GROUP>

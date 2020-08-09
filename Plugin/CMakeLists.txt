@@ -57,19 +57,21 @@ jucer_audio_plugin_settings(
 )
 
 jucer_project_files("Tsuru/Source"
-# Compile   Xcode     Binary    File                                   Compiler Flag
-#           Resource  Resource                                         Scheme
+# Compile   Xcode     Binary    File                                    Compiler Flag
+#           Resource  Resource                                          Scheme
   .         .         .         "Source/JuceHeaderWrapper.h"
-  x         .         .         "Source/PluginProcessor.cpp"           "AllWarnings"
+  x         .         .         "Source/PluginProcessor.cpp"            "AllWarnings"
   .         .         .         "Source/PluginProcessor.h"
-  x         .         .         "Source/PluginEditor.cpp"              "AllWarnings"
+  x         .         .         "Source/PluginEditor.cpp"               "AllWarnings"
   .         .         .         "Source/PluginEditor.h"
-  x         .         .         "Source/UiBroadcaster.cpp"             "AllWarnings"
+  x         .         .         "Source/UiBroadcaster.cpp"              "AllWarnings"
   .         .         .         "Source/UiBroadcaster.h"
-  x         .         .         "Source/FilterWithSmoothedCutoff.cpp"  "AllWarnings"
+  x         .         .         "Source/FilterWithSmoothedCutoff.cpp"   "AllWarnings"
   .         .         .         "Source/FilterWithSmoothedCutoff.h"
-  x         .         .         "Source/ResonanceKnob.cpp"             "AllWarnings"
+  x         .         .         "Source/ResonanceKnob.cpp"              "AllWarnings"
   .         .         .         "Source/ResonanceKnob.h"
+  x         .         .         "Source/CutoffFrequencyVisualizer.cpp"  "AllWarnings"
+  .         .         .         "Source/CutoffFrequencyVisualizer.h"
   x         .         .         "Source/ColorPalette.cpp"               "AllWarnings"
   .         .         .         "Source/ColorPalette.h"
 )
