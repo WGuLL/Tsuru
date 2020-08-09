@@ -70,6 +70,8 @@ jucer_project_files("Tsuru/Source"
   .         .         .         "Source/FilterWithSmoothedCutoff.h"
   x         .         .         "Source/ResonanceKnob.cpp"             "AllWarnings"
   .         .         .         "Source/ResonanceKnob.h"
+  x         .         .         "Source/ColorPalette.cpp"               "AllWarnings"
+  .         .         .         "Source/ColorPalette.h"
 )
 
 jucer_project_module(

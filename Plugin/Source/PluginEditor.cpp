@@ -1,15 +1,10 @@
 
 #include "PluginEditor.h"
+#include "ColorPalette.h"
 #include "PluginProcessor.h"
 
 namespace
 {
-const juce::Colour darkSlateBlue(61, 52, 139);
-const juce::Colour mediumSlateBlue(118, 120, 237);
-const juce::Colour selectiveYellow(247, 184, 1);
-const juce::Colour tangerine(241, 135, 1);
-const juce::Colour orangePantone(243, 91, 4);
-
 [[nodiscard]] NormalisableRange<float> frequencyRange(float min, float max) noexcept
 {
     constexpr auto convertFrom0To1Func = [](auto min, auto max, auto value) {
@@ -67,9 +62,9 @@ void FunFilterEditor::drawFilterShape(int frequency, juce::Graphics& g) const
 
 void FunFilterEditor::paint(juce::Graphics& g)
 {
-    g.fillAll(darkSlateBlue);
+    g.fillAll(ColorPalette::darkSlateBlue);
 
-    g.setColour(mediumSlateBlue);
+    g.setColour(ColorPalette::mediumSlateBlue);
     g.drawRoundedRectangle(getLocalBounds().toFloat(), getHeight() * 0.05f,
                            getHeight() * 0.05f);
     for (const auto& graduatedFrequency : graduatedFrequencies)
@@ -77,7 +72,7 @@ void FunFilterEditor::paint(juce::Graphics& g)
         drawFrequencyVerticalLine(graduatedFrequency, g);
     }
 
-    g.setColour(selectiveYellow);
+    g.setColour(ColorPalette::selectiveYellow);
     drawFilterShape(cutoffValue, g);
 }
 
