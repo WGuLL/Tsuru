@@ -176,6 +176,11 @@ void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* d
 {
 }
 
+void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
+{
+    filter.setResonance(resonance);
+}
+
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return std::make_unique<FunFilterAudioProcessor>().release();

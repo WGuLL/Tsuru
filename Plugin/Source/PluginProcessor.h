@@ -40,6 +40,8 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+    void setFilterResonance(double resonance) noexcept;
+
   private:
     /**
      *  Changes the target value of the smoother to the next value

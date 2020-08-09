@@ -59,3 +59,10 @@ void FilterWithSmoothedCutoff::setFilterCutoffFrequency(double newFrequency) noe
     assert(acceptableValues.contains(newFrequency));
     smoothedFilterFrequency.setTargetValue(newFrequency);
 }
+
+void FilterWithSmoothedCutoff::setResonance(double value) noexcept
+{
+    constexpr juce::Range<double> acceptableValues(0., 3.);
+    assert(acceptableValues.contains(value));
+    q = value;
+}
