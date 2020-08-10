@@ -33,7 +33,6 @@ void BroadcastedValue::removeListener(
                                               == std::addressof(listener.get());
                                    }),
                     end(listeners));
-    listeners.emplace_back(listenerToRemove);
 }
 
 UiBroadcaster::UiBroadcaster()
