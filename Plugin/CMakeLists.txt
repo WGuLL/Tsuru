@@ -14,9 +14,6 @@ set(funFilter_jucer_FILE
 )
 
 
-set(JUCE_MODULES_GLOBAL_PATH "/Users/ExpressivDev/Documents/TemDev/FunFilter/ThirdParty/JUCE/modules")
-
-
 jucer_project_begin(
   JUCER_FORMAT_VERSION "1"
   PROJECT_FILE "${funFilter_jucer_FILE}"
@@ -75,12 +72,12 @@ jucer_project_files("Tsuru/Source"
 
 jucer_project_module(
   juce_audio_basics
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
 )
 
 jucer_project_module(
   juce_audio_devices
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_USE_WINRT_MIDI
   # JUCE_ASIO
   # JUCE_WASAPI
@@ -97,7 +94,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_audio_formats
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_USE_FLAC
   # JUCE_USE_OGGVORBIS
   # JUCE_USE_MP3AUDIOFORMAT
@@ -107,7 +104,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_audio_plugin_client
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   JUCE_VST3_CAN_REPLACE_VST2 OFF
   # JUCE_FORCE_USE_LEGACY_PARAM_IDS
   # JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
@@ -118,7 +115,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_audio_processors
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_PLUGINHOST_VST
   # JUCE_PLUGINHOST_VST3
   # JUCE_PLUGINHOST_AU
@@ -128,14 +125,14 @@ jucer_project_module(
 
 jucer_project_module(
   juce_audio_utils
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_USE_CDREADER
   # JUCE_USE_CDBURNER
 )
 
 jucer_project_module(
   juce_core
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_FORCE_DEBUG
   # JUCE_LOG_ASSERTIONS
   # JUCE_CHECK_MEMORY_LEAKS
@@ -151,18 +148,12 @@ jucer_project_module(
 
 jucer_project_module(
   juce_data_structures
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
-)
-
-jucer_project_module(
-  juce_events
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
-  # JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
+  PATH "../ThirdParty/JUCE/modules"
 )
 
 jucer_project_module(
   juce_dsp
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_ASSERTION_FIRFILTER
   # JUCE_DSP_USE_INTEL_MKL
   # JUCE_DSP_USE_SHARED_FFTW
@@ -171,8 +162,14 @@ jucer_project_module(
 )
 
 jucer_project_module(
+  juce_events
+  PATH "../ThirdParty/JUCE/modules"
+  # JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
+)
+
+jucer_project_module(
   juce_graphics
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_USE_COREIMAGE_LOADER
   # JUCE_USE_DIRECTWRITE
   # JUCE_DISABLE_COREGRAPHICS_FONT_SMOOTHING
@@ -180,7 +177,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_gui_basics
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_ENABLE_REPAINT_DEBUGGING
   # JUCE_USE_XRANDR
   # JUCE_USE_XINERAMA
@@ -192,7 +189,7 @@ jucer_project_module(
 
 jucer_project_module(
   juce_gui_extra
-  PATH "${JUCE_MODULES_GLOBAL_PATH}"
+  PATH "../ThirdParty/JUCE/modules"
   # JUCE_WEB_BROWSER
   # JUCE_USE_WIN_WEBVIEW2
   # JUCE_ENABLE_LIVE_CONSTANT_EDITOR
