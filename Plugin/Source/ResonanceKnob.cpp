@@ -1,22 +1,38 @@
 
 #include "ResonanceKnob.h"
+#include "ColorPalette.h"
 
 ResonanceKnob::ResonanceKnob(UiBroadcaster& broadcaster_,
                              juce::AudioProcessorParameter& parameter) noexcept
-    : juce::Slider(juce::Slider::RotaryVerticalDrag, juce::Slider::NoTextBox)
-    , broadcaster(broadcaster_)
+    : broadcaster(broadcaster_)
+    , parameterNameLabel("", "Resonance")
+    , knob(juce::Slider::RotaryVerticalDrag, juce::Slider::NoTextBox)
 {
+    addAndMakeVisible(parameterNameLabel);
+    parameterNameLabel.setJustificationType(juce::Justification::centred);
+    parameterNameLabel.setColour(juce::Label::textColourId,
+                                 ColorPalette::mediumSlateBlue);
+
+    addAndMakeVisible(knob);
+    knob.setColour(juce::Slider::ColourIds::rotarySliderOutlineColourId,
+                   ColorPalette::mediumSlateBlue);
+    knob.setColour(juce::Slider::ColourIds::rotarySliderFillColourId,
+                   ColorPalette::selectiveYellow);
+    knob.setColour(juce::Slider::ColourIds::thumbColourId,
+                   juce::Colours::transparentWhite);
+
+
     const auto& parameterRange =
         dynamic_cast<juce::AudioParameterFloat&>(parameter).range;
-    setNormalisableRange({static_cast<double>(parameterRange.getRange().getStart()),
-                          static_cast<double>(parameterRange.getRange().getEnd())});
-    onValueChange = [parameterRange, &parameter, this]() {
+    knob.setNormalisableRange({static_cast<double>(parameterRange.getRange().getStart()),
+                               static_cast<double>(parameterRange.getRange().getEnd())});
+    knob.onValueChange = [parameterRange, &parameter, this]() {
         const auto normalizedParam =
-            parameterRange.convertTo0to1(static_cast<float>(getValue()));
+            parameterRange.convertTo0to1(static_cast<float>(knob.getValue()));
         parameter.setValueNotifyingHost(normalizedParam);
     };
-    onDragStart = [&parameter, this]() { parameter.beginChangeGesture(); };
-    onDragEnd = [&parameter, this]() { parameter.endChangeGesture(); };
+    knob.onDragStart = [&parameter, this]() { parameter.beginChangeGesture(); };
+    knob.onDragEnd = [&parameter, this]() { parameter.endChangeGesture(); };
     broadcaster.getValue<ValueIds::filterResonance>().addListener(*this);
 }
 
@@ -27,5 +43,12 @@ ResonanceKnob::~ResonanceKnob() noexcept
 
 void ResonanceKnob::onBroadcastedValueChange(double newValue)
 {
-    setValue(newValue, juce::dontSendNotification);
+    knob.setValue(newValue, juce::dontSendNotification);
+}
+
+void ResonanceKnob::resized()
+{
+    auto areaAvailable = getLocalBounds();
+    knob.setBounds(areaAvailable.removeFromTop(proportionOfHeight(0.8f)));
+    parameterNameLabel.setBounds(areaAvailable.translated(0, proportionOfHeight(-0.1f)));
 }

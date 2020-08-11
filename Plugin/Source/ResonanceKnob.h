@@ -5,7 +5,7 @@
  * Allows the user to change the resonance
  * of the applied filter.
  */
-class ResonanceKnob : public juce::Slider, public UiBroadcastedValueListener
+class ResonanceKnob : public juce::Component, public UiBroadcastedValueListener
 {
   public:
     ResonanceKnob(UiBroadcaster& broadcaster_,
@@ -15,6 +15,10 @@ class ResonanceKnob : public juce::Slider, public UiBroadcastedValueListener
 
     void onBroadcastedValueChange(double newValue) override;
 
+    void resized() override;
+
   private:
     UiBroadcaster& broadcaster;
+    juce::Label parameterNameLabel;
+    juce::Slider knob;
 };

@@ -59,11 +59,9 @@ void CutoffFrequencyVisualizer::drawFilterShape(int frequency, juce::Graphics& g
 
 void CutoffFrequencyVisualizer::paint(juce::Graphics& g)
 {
-    g.fillAll(ColorPalette::darkSlateBlue);
-
     g.setColour(ColorPalette::mediumSlateBlue);
-    g.drawRoundedRectangle(getLocalBounds().toFloat(), getHeight() * 0.05f,
-                           getHeight() * 0.05f);
+    g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(getHeight() * 0.01f),
+                           getHeight() * 0.04f, getHeight() * 0.02f);
     for (const auto& graduatedFrequency : graduatedFrequencies)
     {
         drawFrequencyVerticalLine(graduatedFrequency, g);
