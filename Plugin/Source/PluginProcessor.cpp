@@ -211,11 +211,41 @@ juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
 void FunFilterAudioProcessor::getStateInformation([
     [maybe_unused]] juce::MemoryBlock& destData)
 {
+    juce::XmlElement mainElement("TsuruPreset");
+    for (const auto& parameter : getParameters())
+    {
+        auto xmlDataPtr = std::make_unique<juce::XmlElement>("Parameter");
+        constexpr auto maxCharacters = 30;
+        xmlDataPtr->setAttribute("Name", parameter->getName(maxCharacters));
+        xmlDataPtr->setAttribute("NormalizedValue", parameter->getValue());
+        mainElement.addChildElement(xmlDataPtr.release());
+    }
+    copyXmlToBinary(mainElement, destData);
 }
 
 void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* data,
                                                   [[maybe_unused]] int sizeInBytes)
 {
+    const auto xmlDataPtr = getXmlFromBinary(data, sizeInBytes);
+    for (const auto& parameter : getParameters())
+    {
+        constexpr auto maxCharacters = 30;
+        const auto parameterName = parameter->getName(maxCharacters);
+        const auto* parameterXmlNode =
+            xmlDataPtr->getChildByAttribute("Name", parameterName);
+        if (parameterXmlNode != nullptr)
+        {
+            const auto paramValue =
+                parameterXmlNode->getDoubleAttribute("NormalizedValue");
+            parameter->setValue(static_cast<float>(paramValue));
+        }
+        else
+        {
+            juce::Logger::getCurrentLogger()->writeToLog("The value of the parameter "
+                                                         + parameterName.quoted()
+                                                         + " could not be restored.");
+        }
+    }
 }
 
 void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
