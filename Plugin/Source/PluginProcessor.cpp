@@ -8,6 +8,7 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true))
 {
+    addParameter(std::make_unique<juce::AudioParameterFloat> ("FilterResonance", "FilterResonance", 0.f, 3.f, 1.5f).release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
