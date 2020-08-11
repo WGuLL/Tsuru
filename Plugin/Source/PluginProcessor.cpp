@@ -178,6 +178,7 @@ void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* d
 
 void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
 {
+    broadcaster.setValue<ValueIds::filterResonance> (resonance);
     filter.setResonance(resonance);
 }
 
