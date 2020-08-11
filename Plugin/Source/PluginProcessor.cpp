@@ -3,12 +3,39 @@
 #include "PluginEditor.h"
 #include <memory>
 
+class ParameterWithCallback : public juce::AudioParameterFloat
+{
+  public:
+    using Callback = std::function<void(float)>;
+    ParameterWithCallback(const juce::String& parameterName,
+                          float min,
+                          float max,
+                          float defaultValue,
+                          Callback callback_)
+        : juce::AudioParameterFloat(parameterName, parameterName, min, max, defaultValue)
+        , callback(callback_)
+    {
+    }
+
+  protected:
+    void valueChanged(float newValue) override
+    {
+        callback(newValue);
+    }
+
+  private:
+    Callback callback;
+};
+
 FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true))
 {
-    addParameter(std::make_unique<juce::AudioParameterFloat> ("FilterResonance", "FilterResonance", 0.f, 3.f, 1.5f).release());
+    addParameter(std::make_unique<ParameterWithCallback>(
+                     "FilterResonance", 0.01f, 3.f, 1.5f,
+                     [this](float value) { setFilterResonance(value); })
+                     .release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
@@ -104,6 +131,20 @@ FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(double bpm) 
     return choregraphyPeriodInSamples / filterChoregraphySteps;
 }
 
+[[nodiscard]] juce::AudioProcessorParameter&
+FunFilterAudioProcessor::getParameterFromName(const std::string_view paramName) noexcept
+{
+    auto& parameterList = getParameters();
+    auto paramIt =
+        std::find_if(std::begin(parameterList), std::end(parameterList),
+                     [&paramName](const auto& parameter) {
+                         constexpr auto maxCharacters = 30;
+                         return parameter->getName(maxCharacters) == paramName.data();
+                     });
+    assert(paramIt != std::end(parameterList));
+    return **paramIt;
+}
+
 void FunFilterAudioProcessor::processBlock(
     juce::AudioBuffer<float>& buffer, [[maybe_unused]] juce::MidiBuffer& midiMessages)
 {
@@ -179,7 +220,7 @@ void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* d
 
 void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
 {
-    broadcaster.setValue<ValueIds::filterResonance> (resonance);
+    broadcaster.setValue<ValueIds::filterResonance>(resonance);
     filter.setResonance(resonance);
 }
 

@@ -2,12 +2,21 @@
 #include "ResonanceKnob.h"
 
 ResonanceKnob::ResonanceKnob(UiBroadcaster& broadcaster_,
-                             std::function<void(double)> setResFunc) noexcept
+                             juce::AudioProcessorParameter& parameter) noexcept
     : juce::Slider(juce::Slider::RotaryVerticalDrag, juce::Slider::NoTextBox)
     , broadcaster(broadcaster_)
 {
-    setNormalisableRange({0.01, 2.});
-    onValueChange = [setResFunc, this]() { setResFunc(getValue()); };
+    const auto& parameterRange =
+        dynamic_cast<juce::AudioParameterFloat&>(parameter).range;
+    setNormalisableRange({static_cast<double>(parameterRange.getRange().getStart()),
+                          static_cast<double>(parameterRange.getRange().getEnd())});
+    onValueChange = [parameterRange, &parameter, this]() {
+        const auto normalizedParam =
+            parameterRange.convertTo0to1(static_cast<float>(getValue()));
+        parameter.setValueNotifyingHost(normalizedParam);
+    };
+    onDragStart = [&parameter, this]() { parameter.beginChangeGesture(); };
+    onDragEnd = [&parameter, this]() { parameter.endChangeGesture(); };
     broadcaster.getValue<ValueIds::filterResonance>().addListener(*this);
 }
 

@@ -8,8 +8,7 @@ FunFilterEditor::FunFilterEditor(FunFilterAudioProcessor& p,
     : AudioProcessorEditor(&p)
     , audioProcessor(p)
     , cutoffVisualizer(broadcaster)
-    , resonanceKnob(broadcaster,
-                    [&p](const double resonance) { p.setFilterResonance(resonance); })
+    , resonanceKnob(broadcaster, p.getParameterFromName("FilterResonance"))
 {
     addAndMakeVisible(cutoffVisualizer);
     addAndMakeVisible(resonanceKnob);

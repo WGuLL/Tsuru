@@ -42,6 +42,9 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
 
     void setFilterResonance(double resonance) noexcept;
 
+    [[nodiscard]] juce::AudioProcessorParameter&
+    getParameterFromName(const std::string_view paramName) noexcept;
+
   private:
     /**
      *  Changes the target value of the smoother to the next value

@@ -9,7 +9,7 @@ class ResonanceKnob : public juce::Slider, public UiBroadcastedValueListener
 {
   public:
     ResonanceKnob(UiBroadcaster& broadcaster_,
-                  std::function<void(double)> setResFunc) noexcept;
+                  juce::AudioProcessorParameter& parameter) noexcept;
 
     ~ResonanceKnob() noexcept;
 
