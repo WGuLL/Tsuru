@@ -37,7 +37,7 @@ class FilterWithSmoothedCutoff
     juce::SmoothedValue<double, juce::ValueSmoothingTypes::Multiplicative>
         smoothedFilterFrequency;
     double sampleRate{44100};
-    double q{1.5};
+    std::atomic<double> q{1.5};
     static constexpr std::chrono::duration<double> rampSize{0.01};
     static constexpr auto expectedNbChannels = 2;
     std::array<juce::IIRFilter, expectedNbChannels> filters;
