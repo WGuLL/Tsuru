@@ -14,7 +14,7 @@ void BroadcastedValue::notifyListenersIfNecessary() noexcept
     {
         for (const auto& listener : listeners)
         {
-            listener.get().valueChanged(value.load());
+            listener.get().onBroadcastedValueChange(value.load());
         }
     }
 }
@@ -22,6 +22,7 @@ void BroadcastedValue::notifyListenersIfNecessary() noexcept
 void BroadcastedValue::addListener(UiBroadcastedValueListener& listener) noexcept
 {
     listeners.emplace_back(listener);
+    listener.onBroadcastedValueChange(value);
 }
 
 void BroadcastedValue::removeListener(

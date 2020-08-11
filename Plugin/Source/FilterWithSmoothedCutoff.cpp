@@ -53,9 +53,16 @@ void FilterWithSmoothedCutoff::process(juce::AudioBuffer<float>& inputAudioBuffe
 
 void FilterWithSmoothedCutoff::setFilterCutoffFrequency(double newFrequency) noexcept
 {
-    constexpr auto arbitraryMin = 25;
-    constexpr auto arbitraryMax = 15000;
-    constexpr juce::Range<double> acceptableValues(arbitraryMin, arbitraryMax);
-    assert(acceptableValues.contains(newFrequency));
+    constexpr auto min = 25.;
+    constexpr auto max = 15000.;
+    assert(std::clamp(newFrequency, min, max) == newFrequency);
     smoothedFilterFrequency.setTargetValue(newFrequency);
+}
+
+void FilterWithSmoothedCutoff::setResonance(double value) noexcept
+{
+    constexpr auto min = 0.;
+    constexpr auto max = 3.;
+    assert(std::clamp(value, min, max) == value);
+    q = value;
 }

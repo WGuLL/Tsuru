@@ -11,6 +11,7 @@ using namespace std::chrono_literals;
 enum class ValueIds : size_t
 {
     filterCutoff,
+    filterResonance,
     nbValues
 };
 /**
@@ -23,7 +24,7 @@ class UiBroadcastedValueListener
     /**
      * Called by the message thread when the value has changed.
      */
-    virtual void valueChanged(double newValue) = 0;
+    virtual void onBroadcastedValueChange(double value) = 0;
 };
 /**
  * Implementation of the value notification.

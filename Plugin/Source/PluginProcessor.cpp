@@ -3,11 +3,39 @@
 #include "PluginEditor.h"
 #include <memory>
 
+class ParameterWithCallback : public juce::AudioParameterFloat
+{
+  public:
+    using Callback = std::function<void(float)>;
+    ParameterWithCallback(const juce::String& parameterName,
+                          float min,
+                          float max,
+                          float defaultValue,
+                          Callback callback_)
+        : juce::AudioParameterFloat(parameterName, parameterName, min, max, defaultValue)
+        , callback(callback_)
+    {
+    }
+
+  protected:
+    void valueChanged(float newValue) override
+    {
+        callback(newValue);
+    }
+
+  private:
+    Callback callback;
+};
+
 FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true))
 {
+    addParameter(std::make_unique<ParameterWithCallback>(
+                     "FilterResonance", 0.01f, 3.f, 1.5f,
+                     [this](float value) { setFilterResonance(value); })
+                     .release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
@@ -103,6 +131,20 @@ FunFilterAudioProcessor::calculateChoregraphyPeriodInSamplesFromBpm(double bpm) 
     return choregraphyPeriodInSamples / filterChoregraphySteps;
 }
 
+[[nodiscard]] juce::AudioProcessorParameter&
+FunFilterAudioProcessor::getParameterFromName(const std::string_view paramName) noexcept
+{
+    auto& parameterList = getParameters();
+    auto paramIt =
+        std::find_if(std::begin(parameterList), std::end(parameterList),
+                     [&paramName](const auto& parameter) {
+                         constexpr auto maxCharacters = 30;
+                         return parameter->getName(maxCharacters) == paramName.data();
+                     });
+    assert(paramIt != std::end(parameterList));
+    return **paramIt;
+}
+
 void FunFilterAudioProcessor::processBlock(
     juce::AudioBuffer<float>& buffer, [[maybe_unused]] juce::MidiBuffer& midiMessages)
 {
@@ -169,11 +211,47 @@ juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
 void FunFilterAudioProcessor::getStateInformation([
     [maybe_unused]] juce::MemoryBlock& destData)
 {
+    juce::XmlElement mainElement("TsuruPreset");
+    for (const auto& parameter : getParameters())
+    {
+        auto xmlDataPtr = std::make_unique<juce::XmlElement>("Parameter");
+        constexpr auto maxCharacters = 30;
+        xmlDataPtr->setAttribute("Name", parameter->getName(maxCharacters));
+        xmlDataPtr->setAttribute("NormalizedValue", parameter->getValue());
+        mainElement.addChildElement(xmlDataPtr.release());
+    }
+    copyXmlToBinary(mainElement, destData);
 }
 
 void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* data,
                                                   [[maybe_unused]] int sizeInBytes)
 {
+    const auto xmlDataPtr = getXmlFromBinary(data, sizeInBytes);
+    for (const auto& parameter : getParameters())
+    {
+        constexpr auto maxCharacters = 30;
+        const auto parameterName = parameter->getName(maxCharacters);
+        const auto* parameterXmlNode =
+            xmlDataPtr->getChildByAttribute("Name", parameterName);
+        if (parameterXmlNode != nullptr)
+        {
+            const auto paramValue =
+                parameterXmlNode->getDoubleAttribute("NormalizedValue");
+            parameter->setValue(static_cast<float>(paramValue));
+        }
+        else
+        {
+            juce::Logger::getCurrentLogger()->writeToLog("The value of the parameter "
+                                                         + parameterName.quoted()
+                                                         + " could not be restored.");
+        }
+    }
+}
+
+void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
+{
+    broadcaster.setValue<ValueIds::filterResonance>(resonance);
+    filter.setResonance(resonance);
 }
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
