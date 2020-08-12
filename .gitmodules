@@ -4,3 +4,6 @@
 [submodule "ThirdParty/FRUT"]
 	path = ThirdParty/FRUT
 	url = git@github.com:McMartin/FRUT.git
+[submodule "ThirdParty/pluginval"]
+	path = ThirdParty/pluginval
+	url = git@github.com:Tracktion/pluginval.git
