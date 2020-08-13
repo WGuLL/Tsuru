@@ -74,6 +74,8 @@ jucer_project_files("Tsuru/Source"
   .         .         .         "Source/CutoffFrequencyVisualizer.h"
   x         .         .         "Source/ColorPalette.cpp"               "AllWarnings"
   .         .         .         "Source/ColorPalette.h"
+  x         .         .         "Source/RateKnob.cpp"                   "AllWarnings"
+  .         .         .         "Source/RateKnob.h"
 )
 
 jucer_project_module(
