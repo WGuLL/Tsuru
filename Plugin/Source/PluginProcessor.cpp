@@ -27,6 +27,29 @@ class ParameterWithCallback : public juce::AudioParameterFloat
     Callback callback;
 };
 
+class ChoiceParameterWithCallback : public juce::AudioParameterChoice
+{
+  public:
+    using Callback = std::function<void(int)>;
+    ChoiceParameterWithCallback(const juce::String& parameterName,
+                                const juce::StringArray& choices,
+                                int defaultIndex,
+                                Callback callback_)
+        : juce::AudioParameterChoice(parameterName, parameterName, choices, defaultIndex)
+        , callback(callback_)
+    {
+    }
+
+  protected:
+    void valueChanged(int newValue) override
+    {
+        callback(newValue);
+    }
+
+  private:
+    Callback callback;
+};
+
 FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
@@ -36,6 +59,13 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
                      "FilterResonance", 0.01f, 3.f, 1.5f,
                      [this](float value) { setFilterResonance(value); })
                      .release());
+    addParameter(
+        std::make_unique<ChoiceParameterWithCallback>(
+            "Rate", juce::StringArray{"1/8", "1/4", "1/2", "1", "2", "4" , "8"}, 4,
+            [this](int value) {
+        broadcaster.setValue<ValueIds::sequenceDuration>(static_cast<double>(value));
+        setSequenceDuration(std::pow(2, static_cast<double>(value +1)/ 8) ); })
+            .release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
@@ -246,6 +276,11 @@ void FunFilterAudioProcessor::setStateInformation([[maybe_unused]] const void* d
                                                          + " could not be restored.");
         }
     }
+}
+
+void FunFilterAudioProcessor::setSequenceDuration(double sequenceDurationInBeats) noexcept
+{
+    choregraphyLengthInBeats = sequenceDurationInBeats;
 }
 
 void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
