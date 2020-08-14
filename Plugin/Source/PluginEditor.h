@@ -3,8 +3,8 @@
 
 #include "CutoffFrequencyVisualizer.h"
 #include "JuceHeaderWrapper.h"
-#include "ResonanceKnob.h"
 #include "RateKnob.h"
+#include "ResonanceKnob.h"
 
 class UiBroadcaster;
 class FunFilterAudioProcessor;

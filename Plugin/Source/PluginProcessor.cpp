@@ -61,10 +61,12 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
                      .release());
     addParameter(
         std::make_unique<ChoiceParameterWithCallback>(
-            "Rate", juce::StringArray{"1/8", "1/4", "1/2", "1", "2", "4" , "8"}, 4,
+            "Rate", juce::StringArray{"1/8", "1/4", "1/2", "1", "2", "4", "8"}, 4,
             [this](int value) {
-        broadcaster.setValue<ValueIds::sequenceDuration>(static_cast<double>(value));
-        setSequenceDuration(std::pow(2, static_cast<double>(value +1)/ 8) ); })
+                broadcaster.setValue<ValueIds::sequenceDuration>(
+                    static_cast<double>(value));
+                setSequenceDuration(std::pow(2, static_cast<double>(value + 1) / 8));
+            })
             .release());
 }
 
