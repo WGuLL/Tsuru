@@ -30,7 +30,7 @@ jobs:
         ./mac_build
         cd ../bin/mac
         unzip pluginval_macOS.zip
-        ./pluginval.app/Contents/MacOS/pluginval --strictness-level 10 --validate ../../../../build/Plugin/Release/Tsuru.vst3
+        ./pluginval.app/Contents/MacOS/pluginval --verbose --strictness-level 10 --validate ../../../../build/Plugin/Release/Tsuru.vst3
 
 
 
