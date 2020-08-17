@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<JUCERPROJECT id="QP1hIV" name="Tsuru" projectType="audioplug" useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="0" jucerFormatVersion="1" version="0.0.2" companyEmail="fabien.roussel.1992@gmail.com" cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Symbel" pluginFormats="buildAU,buildVST3,buildStandalone">
+<JUCERPROJECT id="QP1hIV" name="Tsuru" projectType="audioplug" useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="0" jucerFormatVersion="1" version="0.0.3" companyEmail="fabien.roussel.1992@gmail.com" cppLanguageStandard="17" compilerFlagSchemes="AllWarnings" companyName="Symbel" pluginFormats="buildAU,buildVST3,buildStandalone">
   <MAINGROUP id="aYrAzy" name="Tsuru">
     <GROUP id="{2CBC4F03-F194-7E02-C996-52E8B80262EC}" name="Source">
       <FILE id="Yk2PDq" name="JuceHeaderWrapper.h" compile="0" resource="0" file="Source/JuceHeaderWrapper.h"/>
