@@ -40,7 +40,11 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+    /**
+     * Dsp parameter setters.
+     */
     void setFilterResonance(double resonance) noexcept;
+    void setSequenceDuration(double sequenceDurationInBeats) noexcept;
 
     [[nodiscard]] juce::AudioProcessorParameter&
     getParameterFromName(const std::string_view paramName) noexcept;
@@ -62,10 +66,10 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     double sampleRate{44100};
     size_t currentFrequencyIndex{0};
     double filterChoregraphyStepPeriodInSamples{1};
+    std::atomic<double> choregraphyLengthInBeats{2};
 
     UiBroadcaster broadcaster;
 
-    static constexpr auto choregraphyLengthInBeats{2};
     static constexpr auto filterChoregraphyNbSteps{4};
     static constexpr std::array<double, filterChoregraphyNbSteps> frequencies{
         {300, 1500, 800, 3000}};

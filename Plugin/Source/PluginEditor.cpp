@@ -10,9 +10,11 @@ FunFilterEditor::FunFilterEditor(FunFilterAudioProcessor& p,
     , audioProcessor(p)
     , cutoffVisualizer(broadcaster)
     , resonanceKnob(broadcaster, p.getParameterFromName("FilterResonance"))
+    , rateKnob(broadcaster, p.getParameterFromName("Rate"))
 {
     addAndMakeVisible(cutoffVisualizer);
     addAndMakeVisible(resonanceKnob);
+    addAndMakeVisible(rateKnob);
 
     setSize(400, 300);
 }
@@ -29,6 +31,9 @@ void FunFilterEditor::resized()
     auto areaLeftToFill = getLocalBounds();
     cutoffVisualizer.setBounds(areaLeftToFill.removeFromTop(proportionOfHeight(0.8f))
                                    .reduced(proportionOfWidth(0.05f)));
-    resonanceKnob.setBounds(areaLeftToFill.expanded(proportionOfHeight(0.02f))
+    resonanceKnob.setBounds(areaLeftToFill.removeFromLeft(proportionOfWidth(0.5f))
+                                .expanded(proportionOfHeight(0.02f))
                                 .translated(0, proportionOfHeight(-0.035f)));
+    rateKnob.setBounds(areaLeftToFill.expanded(proportionOfHeight(0.02f))
+                           .translated(0, proportionOfHeight(-0.035f)));
 }

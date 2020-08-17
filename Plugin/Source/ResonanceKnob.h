@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "JuceHeaderWrapper.h"
 #include "UiBroadcaster.h"
 /**

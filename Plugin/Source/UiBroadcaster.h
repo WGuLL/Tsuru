@@ -12,6 +12,7 @@ enum class ValueIds : size_t
 {
     filterCutoff,
     filterResonance,
+    sequenceDuration,
     nbValues
 };
 /**

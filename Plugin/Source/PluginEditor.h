@@ -3,6 +3,7 @@
 
 #include "CutoffFrequencyVisualizer.h"
 #include "JuceHeaderWrapper.h"
+#include "RateKnob.h"
 #include "ResonanceKnob.h"
 
 class UiBroadcaster;
@@ -23,6 +24,7 @@ class FunFilterEditor : public juce::AudioProcessorEditor
     FunFilterAudioProcessor& audioProcessor;
     CutoffFrequencyVisualizer cutoffVisualizer;
     ResonanceKnob resonanceKnob;
+    RateKnob rateKnob;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };

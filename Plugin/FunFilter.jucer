@@ -17,6 +17,8 @@
       <FILE id="BB1V0d" name="CutoffFrequencyVisualizer.h" compile="0" resource="0" file="Source/CutoffFrequencyVisualizer.h"/>
       <FILE id="fGebvM" name="ColorPalette.cpp" compile="1" resource="0" file="Source/ColorPalette.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="ColorPalette.h" compile="0" resource="0" file="Source/ColorPalette.h"/>
+      <FILE id="fGebvM" name="RateKnob.cpp" compile="1" resource="0" file="Source/RateKnob.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="BB1V0d" name="RateKnob.h" compile="0" resource="0" file="Source/RateKnob.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

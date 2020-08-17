@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "JuceHeaderWrapper.h"
 
 class ColorPalette
