@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CutoffFrequencyVisualizer.h"
+#include "CutoffSequenceComponent.h"
 #include "JuceHeaderWrapper.h"
 #include "RateKnob.h"
 #include "ResonanceKnob.h"
@@ -25,6 +26,7 @@ class FunFilterEditor : public juce::AudioProcessorEditor
     CutoffFrequencyVisualizer cutoffVisualizer;
     ResonanceKnob resonanceKnob;
     RateKnob rateKnob;
+    CutoffSequenceComponent cutoffSequence;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterEditor)
 };
