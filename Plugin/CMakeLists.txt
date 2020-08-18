@@ -76,6 +76,8 @@ jucer_project_files("Tsuru/Source"
   .         .         .         "Source/ColorPalette.h"
   x         .         .         "Source/RateKnob.cpp"                   "AllWarnings"
   .         .         .         "Source/RateKnob.h"
+  x         .         .         "Source/CutoffSequenceComponent.cpp"    "AllWarnings"
+  .         .         .         "Source/CutoffSequenceComponent.h"
 )
 
 jucer_project_module(
