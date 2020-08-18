@@ -22,7 +22,7 @@ jucer_project_begin(
 
 jucer_project_settings(
   PROJECT_NAME "Tsuru"
-  PROJECT_VERSION "0.0.1"
+  PROJECT_VERSION "0.0.3"
   COMPANY_NAME "Symbel"
   COMPANY_EMAIL "fabien.roussel.1992@gmail.com"
   REPORT_JUCE_APP_USAGE ON # Required for closed source applications without an Indie or Pro JUCE license
