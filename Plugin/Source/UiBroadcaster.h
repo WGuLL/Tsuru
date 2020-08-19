@@ -13,6 +13,10 @@ enum class ValueIds : size_t
     filterCutoff,
     filterResonance,
     sequenceDuration,
+    step0Frequency,
+    step1Frequency,
+    step2Frequency,
+    step3Frequency,
     nbValues
 };
 /**

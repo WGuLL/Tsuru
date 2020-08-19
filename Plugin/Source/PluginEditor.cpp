@@ -11,6 +11,7 @@ FunFilterEditor::FunFilterEditor(FunFilterAudioProcessor& p,
     , cutoffVisualizer(broadcaster)
     , resonanceKnob(broadcaster, p.getParameterFromName("FilterResonance"))
     , rateKnob(broadcaster, p.getParameterFromName("Rate"))
+    , cutoffSequence(broadcaster, p)
 {
     addAndMakeVisible(cutoffVisualizer);
     addAndMakeVisible(resonanceKnob);

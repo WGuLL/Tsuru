@@ -45,6 +45,14 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
      */
     void setFilterResonance(double resonance) noexcept;
     void setSequenceDuration(double sequenceDurationInBeats) noexcept;
+    template <size_t stepIndex>
+    void setFilterStepFrequency(double frequencyValue) noexcept
+    {
+        assert(stepIndex < frequencies.size());
+        frequencies[stepIndex].store(frequencyValue);
+        const auto valueIndex = static_cast<size_t>(ValueIds::step0Frequency) + stepIndex;
+        broadcaster.setValue<static_cast<ValueIds>(stepIndex)>(frequencyValue);
+    }
 
     [[nodiscard]] juce::AudioProcessorParameter&
     getParameterFromName(const std::string_view paramName) noexcept;
@@ -71,7 +79,8 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
     UiBroadcaster broadcaster;
 
     static constexpr auto filterChoregraphyNbSteps{4};
-    static constexpr std::array<double, filterChoregraphyNbSteps> frequencies{
+
+    std::array<std::atomic<double>, filterChoregraphyNbSteps> frequencies{
         {300, 1500, 800, 3000}};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FunFilterAudioProcessor)
