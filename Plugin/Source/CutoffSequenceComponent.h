@@ -38,21 +38,11 @@ class CutoffSequenceComponent : public juce::Component
 {
   public:
     CutoffSequenceComponent(UiBroadcaster& broadcaster,
-                            FunFilterAudioProcessor& processor)
-    {
-        initializeSlider<0>(processor, broadcaster);
-        initializeSlider<1>(processor, broadcaster);
-        initializeSlider<2>(processor, broadcaster);
-        initializeSlider<3>(processor, broadcaster);
-
-        for (auto i = size_t{0}; i < frequencySliders.size(); ++i)
-        {
-            addAndMakeVisible(frequencySliders[i].get());
-        }
-    }
+                            FunFilterAudioProcessor& processor) noexcept;
 
     template <size_t stepIndex>
-    void initializeSlider(FunFilterAudioProcessor& processor, UiBroadcaster& broadcaster)
+    void initializeSlider(FunFilterAudioProcessor& processor,
+                          UiBroadcaster& broadcaster) noexcept
     {
         assert(stepIndex < frequencySliders.size());
         frequencySliders[stepIndex] = std::make_unique<SequenceFrequencySlider>(
@@ -64,16 +54,7 @@ class CutoffSequenceComponent : public juce::Component
         };
     }
 
-    void resized() override
-    {
-        auto areaAvailable = getLocalBounds();
-        const auto sliderWidth =
-            proportionOfWidth(1.f / static_cast<float>(frequencySliders.size()));
-        for (auto& frequencySlider : frequencySliders)
-        {
-            frequencySlider->setBounds(areaAvailable.removeFromLeft(sliderWidth));
-        }
-    }
+    void resized() override;
 
   private:
     std::array<std::unique_ptr<juce::Slider>, 4> frequencySliders;
