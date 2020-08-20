@@ -2,23 +2,9 @@
 #pragma once
 
 #include "JuceHeaderWrapper.h"
+#include "MathUtils.h"
 #include "PluginProcessor.h"
 #include "UiBroadcaster.h"
-
-namespace
-{
-[[nodiscard]] NormalisableRange<double> frequencyRange(double min, double max) noexcept
-{
-    constexpr auto convertFrom0To1Func = [](auto min, auto max, auto value) {
-        return juce::mapToLog10(value, min, max);
-    };
-    constexpr auto convertTo0To1Func = [](auto min, auto max, auto value) {
-        return juce::mapFromLog10(value, min, max);
-    };
-    return {min, max, convertFrom0To1Func, convertTo0To1Func};
-}
-
-} // namespace
 
 class SequenceFrequencySlider : public juce::Slider, public UiBroadcastedValueListener
 {
@@ -26,7 +12,7 @@ class SequenceFrequencySlider : public juce::Slider, public UiBroadcastedValueLi
     SequenceFrequencySlider(BroadcastedValue& value_)
         : value(value_)
     {
-        setNormalisableRange(frequencyRange(25, 15000));
+        setNormalisableRange(MathUtils::frequencyRange(25., 15000.));
 
         setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
         value.addListener(*this);

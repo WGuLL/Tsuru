@@ -60,6 +60,7 @@ jucer_project_files("Tsuru/Source"
 # Compile   Xcode     Binary    File                                    Compiler Flag
 #           Resource  Resource                                          Scheme
   .         .         .         "Source/JuceHeaderWrapper.h"
+  .         .         .         "Source/MathUtils.h"
   x         .         .         "Source/PluginProcessor.cpp"            "AllWarnings"
   .         .         .         "Source/PluginProcessor.h"
   x         .         .         "Source/PluginEditor.cpp"               "AllWarnings"
