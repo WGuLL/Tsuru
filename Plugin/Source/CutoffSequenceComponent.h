@@ -23,7 +23,7 @@ class SequenceFrequencySlider : public juce::Slider, public UiBroadcastedValueLi
     }
     void onBroadcastedValueChange(double newValue) override
     {
-        setValue(newValue);
+        setValue(newValue, juce::dontSendNotification);
     }
 
   private:
@@ -48,9 +48,14 @@ class CutoffSequenceComponent : public juce::Component
         frequencySliders[stepIndex] = std::make_unique<SequenceFrequencySlider>(
             broadcaster.getValue<static_cast<ValueIds>(
                 stepIndex + static_cast<size_t>(ValueIds::step0Frequency))>());
-        frequencySliders[stepIndex]->onValueChange = [this, &processor]() {
+
+        auto& parameter = processor.getParameterFromName(
+            "Step " + std::to_string(stepIndex) + " frequency");
+        const auto frequencyRange = MathUtils::frequencyRange(25.f, 15000.f);
+        frequencySliders[stepIndex]->onValueChange = [this, frequencyRange,
+                                                      &parameter]() {
             const auto value = frequencySliders[stepIndex]->getValue();
-            processor.setFilterStepFrequency<stepIndex>(value);
+            parameter.setValueNotifyingHost(frequencyRange.convertTo0to1(value));
         };
     }
 

@@ -51,7 +51,7 @@ class FunFilterAudioProcessor : public juce::AudioProcessor
         assert(stepIndex < frequencies.size());
         frequencies[stepIndex].store(frequencyValue);
         const auto valueIndex = static_cast<size_t>(ValueIds::step0Frequency) + stepIndex;
-        broadcaster.setValue<static_cast<ValueIds>(stepIndex)>(frequencyValue);
+        broadcaster.setValue<static_cast<ValueIds>(valueIndex)>(frequencyValue);
     }
 
     [[nodiscard]] juce::AudioProcessorParameter&

@@ -1,5 +1,6 @@
 
 #include "PluginProcessor.h"
+#include "MathUtils.h"
 #include "PluginEditor.h"
 #include <memory>
 
@@ -13,6 +14,14 @@ class ParameterWithCallback : public juce::AudioParameterFloat
                           float defaultValue,
                           Callback callback_)
         : juce::AudioParameterFloat(parameterName, parameterName, min, max, defaultValue)
+        , callback(callback_)
+    {
+    }
+    ParameterWithCallback(const juce::String& parameterName,
+                          juce::NormalisableRange<float> range,
+                          float defaultValue,
+                          Callback callback_)
+        : juce::AudioParameterFloat(parameterName, parameterName, range, defaultValue)
         , callback(callback_)
     {
     }
@@ -50,6 +59,23 @@ class ChoiceParameterWithCallback : public juce::AudioParameterChoice
     Callback callback;
 };
 
+namespace
+{
+
+template <size_t index>
+std::unique_ptr<ParameterWithCallback> createParameter(double defaultValue,
+                                                       FunFilterAudioProcessor& processor)
+{
+    processor.setFilterStepFrequency<index>(defaultValue);
+    return std::make_unique<ParameterWithCallback>(
+        "Step " + std::to_string(index) + " frequency",
+        MathUtils::frequencyRange(26.f, 16000.f), defaultValue,
+        [&processor](float value) { processor.setFilterStepFrequency<index>(value); });
+}
+
+} // namespace
+
+
 FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
@@ -68,6 +94,11 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
                 setSequenceDuration(std::pow(2, static_cast<double>(value + 1) / 8));
             })
             .release());
+
+    addParameter(createParameter<0>(frequencies[0], *this).release());
+    addParameter(createParameter<1>(frequencies[1], *this).release());
+    addParameter(createParameter<2>(frequencies[2], *this).release());
+    addParameter(createParameter<3>(frequencies[3], *this).release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
@@ -290,6 +321,7 @@ void FunFilterAudioProcessor::setFilterResonance(double resonance) noexcept
     broadcaster.setValue<ValueIds::filterResonance>(resonance);
     filter.setResonance(resonance);
 }
+
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
