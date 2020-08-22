@@ -69,7 +69,7 @@ std::unique_ptr<ParameterWithCallback> createParameter(double defaultValue,
     processor.setFilterStepFrequency<index>(defaultValue);
     return std::make_unique<ParameterWithCallback>(
         "Step " + std::to_string(index) + " frequency",
-        MathUtils::frequencyRange(26.f, 16000.f), defaultValue,
+        MathUtils::frequencyRange<float>(), defaultValue,
         [&processor](float value) { processor.setFilterStepFrequency<index>(value); });
 }
 

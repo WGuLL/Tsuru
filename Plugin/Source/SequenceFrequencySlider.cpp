@@ -8,11 +8,10 @@ SequenceFrequencySlider::SequenceFrequencySlider(BroadcastedValue& value_)
                    juce::Slider::TextEntryBoxPosition::NoTextBox)
     , value(value_)
 {
-    setNormalisableRange(MathUtils::frequencyRange(25., 15000.));
+    setNormalisableRange(MathUtils::frequencyRange<double>());
     setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::transparentWhite);
     setColour(juce::Slider::ColourIds::trackColourId, ColorPalette::selectiveYellow);
     setColour(juce::Slider::ColourIds::backgroundColourId, ColorPalette::mediumSlateBlue);
-
 
     value.addListener(*this);
 }

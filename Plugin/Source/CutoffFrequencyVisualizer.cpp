@@ -4,7 +4,7 @@
 #include "MathUtils.h"
 
 CutoffFrequencyVisualizer::CutoffFrequencyVisualizer(UiBroadcaster& broadcaster_) noexcept
-    : range(MathUtils::frequencyRange(25.f, 20000.f))
+    : range(MathUtils::frequencyRange<float>())
     , broadcaster(broadcaster_)
 {
     broadcaster.getValue<ValueIds::filterCutoff>().addListener(*this);

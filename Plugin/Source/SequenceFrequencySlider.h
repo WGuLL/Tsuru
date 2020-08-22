@@ -19,4 +19,5 @@ class SequenceFrequencySlider : public juce::Slider, public UiBroadcastedValueLi
 
   private:
     BroadcastedValue& value;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SequenceFrequencySlider)
 };

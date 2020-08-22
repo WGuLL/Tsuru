@@ -28,11 +28,17 @@ class CutoffSequenceComponent : public juce::Component
 
         auto& parameter = processor.getParameterFromName(
             "Step " + std::to_string(stepIndex) + " frequency");
-        const auto frequencyRange = MathUtils::frequencyRange(25.f, 15000.f);
+        const auto frequencyRange = MathUtils::frequencyRange<float>();
         frequencySliders[stepIndex]->onValueChange = [this, frequencyRange,
                                                       &parameter]() {
             const auto value = frequencySliders[stepIndex]->getValue();
             parameter.setValueNotifyingHost(frequencyRange.convertTo0to1(value));
+        };
+        frequencySliders[stepIndex]->onDragStart = [&parameter]() {
+            parameter.beginChangeGesture();
+        };
+        frequencySliders[stepIndex]->onDragEnd = [&parameter]() {
+            parameter.endChangeGesture();
         };
     }
 
@@ -41,4 +47,5 @@ class CutoffSequenceComponent : public juce::Component
   private:
     juce::Label titleLabel;
     std::array<std::unique_ptr<juce::Slider>, 4> frequencySliders;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CutoffSequenceComponent)
 };
