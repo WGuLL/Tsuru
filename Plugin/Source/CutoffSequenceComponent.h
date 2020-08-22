@@ -5,30 +5,7 @@
 #include "MathUtils.h"
 #include "PluginProcessor.h"
 #include "UiBroadcaster.h"
-
-class SequenceFrequencySlider : public juce::Slider, public UiBroadcastedValueListener
-{
-  public:
-    SequenceFrequencySlider(BroadcastedValue& value_)
-        : value(value_)
-    {
-        setNormalisableRange(MathUtils::frequencyRange(25., 15000.));
-
-        setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-        value.addListener(*this);
-    }
-    ~SequenceFrequencySlider()
-    {
-        value.removeListener(*this);
-    }
-    void onBroadcastedValueChange(double newValue) override
-    {
-        setValue(newValue, juce::dontSendNotification);
-    }
-
-  private:
-    BroadcastedValue& value;
-};
+#include "SequenceFrequencySlider.h"
 
 /**
  * Shows and edits the different cutoff frequencies of the

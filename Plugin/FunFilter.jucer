@@ -22,6 +22,8 @@
       <FILE id="BB1V0d" name="RateKnob.h" compile="0" resource="0" file="Source/RateKnob.h"/>
       <FILE id="fGebvM" name="CutoffSequenceComponent.cpp" compile="1" resource="0" file="Source/CutoffSequenceComponent.cpp" compilerFlagScheme="AllWarnings"/>
       <FILE id="BB1V0d" name="CutoffSequenceComponent.h" compile="0" resource="0" file="Source/CutoffSequenceComponent.h"/>
+      <FILE id="fGebvM" name="SequenceFrequencySlider.cpp" compile="1" resource="0" file="Source/SequenceFrequencySlider.cpp" compilerFlagScheme="AllWarnings"/>
+      <FILE id="BB1V0d" name="SequenceFrequencySlider.h" compile="0" resource="0" file="Source/SequenceFrequencySlider.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
