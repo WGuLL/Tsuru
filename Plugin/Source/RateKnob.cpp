@@ -31,8 +31,8 @@ RateKnob::RateKnob(UiBroadcaster& broadcaster_,
             parameterRange.convertTo0to1(static_cast<float>(knob.getValue()));
         parameter.setValueNotifyingHost(normalizedParam);
     };
-    knob.onDragStart = [&parameter, this]() { parameter.beginChangeGesture(); };
-    knob.onDragEnd = [&parameter, this]() { parameter.endChangeGesture(); };
+    knob.onDragStart = [&parameter]() { parameter.beginChangeGesture(); };
+    knob.onDragEnd = [&parameter]() { parameter.endChangeGesture(); };
     broadcaster.getValue<ValueIds::sequenceDuration>().addListener(*this);
 }
 
