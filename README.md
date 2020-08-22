@@ -7,6 +7,9 @@ When I create music, I like good sounding, simple and straight forward audio plu
 what I'd like to achieve with the plugins I create.
 
 # Tsuru
+
+[![Actions Status](https://github.com/WGuLL/AudioPlugins/workflows/TsuruPluginvalTest/badge.svg)](https://github.com/WGuLL/AudioPlugins/actions)
+
 Not sure yet but I want to do something with filters and rhythm.
 For now the plugin simply applies a succession of cutoff frequencies
 in sync with the bpm.

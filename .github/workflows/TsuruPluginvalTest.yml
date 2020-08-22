@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
-    - name: Tsuru release compilation
+    - name: Tsuru pluginval test release
       run: |
         cd ThirdParty/FRUT
         mkdir build && cd build/
@@ -26,3 +26,11 @@ jobs:
         cd build
         cmake .. -G Xcode
         cmake --build . --config Release
+        cd ../ThirdParty/pluginval/install
+        ./mac_build
+        cd ../bin/mac
+        unzip pluginval_macOS.zip
+        ./pluginval.app/Contents/MacOS/pluginval --verbose --strictness-level 10 --validate ../../../../build/Plugin/Release/Tsuru.vst3
+
+
+
