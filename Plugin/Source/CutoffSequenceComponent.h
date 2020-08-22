@@ -39,5 +39,6 @@ class CutoffSequenceComponent : public juce::Component
     void resized() override;
 
   private:
+    juce::Label titleLabel;
     std::array<std::unique_ptr<juce::Slider>, 4> frequencySliders;
 };

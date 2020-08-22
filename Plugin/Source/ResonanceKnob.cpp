@@ -9,7 +9,7 @@ ResonanceKnob::ResonanceKnob(UiBroadcaster& broadcaster_,
     , knob(juce::Slider::RotaryVerticalDrag, juce::Slider::NoTextBox)
 {
     addAndMakeVisible(parameterNameLabel);
-    parameterNameLabel.setJustificationType(juce::Justification::centred);
+    parameterNameLabel.setJustificationType(juce::Justification::centredBottom);
     parameterNameLabel.setColour(juce::Label::textColourId,
                                  ColorPalette::mediumSlateBlue);
 
@@ -49,6 +49,6 @@ void ResonanceKnob::onBroadcastedValueChange(double newValue)
 void ResonanceKnob::resized()
 {
     auto areaAvailable = getLocalBounds();
-    knob.setBounds(areaAvailable.removeFromTop(proportionOfHeight(0.8f)));
-    parameterNameLabel.setBounds(areaAvailable.translated(0, proportionOfHeight(-0.1f)));
+    parameterNameLabel.setBounds(areaAvailable.removeFromTop(proportionOfHeight(0.2f)));
+    knob.setBounds(areaAvailable);
 }
