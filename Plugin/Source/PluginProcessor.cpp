@@ -61,10 +61,9 @@ class ChoiceParameterWithCallback : public juce::AudioParameterChoice
 
 namespace
 {
-
 template <size_t index>
-std::unique_ptr<ParameterWithCallback> createParameter(double defaultValue,
-                                                       FunFilterAudioProcessor& processor)
+std::unique_ptr<ParameterWithCallback>
+createFrequencyStepParameter(double defaultValue, FunFilterAudioProcessor& processor)
 {
     processor.setFilterStepFrequency<index>(defaultValue);
     return std::make_unique<ParameterWithCallback>(
@@ -72,7 +71,6 @@ std::unique_ptr<ParameterWithCallback> createParameter(double defaultValue,
         MathUtils::frequencyRange<float>(), defaultValue,
         [&processor](float value) { processor.setFilterStepFrequency<index>(value); });
 }
-
 } // namespace
 
 
@@ -95,10 +93,10 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
             })
             .release());
 
-    addParameter(createParameter<0>(frequencies[0], *this).release());
-    addParameter(createParameter<1>(frequencies[1], *this).release());
-    addParameter(createParameter<2>(frequencies[2], *this).release());
-    addParameter(createParameter<3>(frequencies[3], *this).release());
+    addParameter(createFrequencyStepParameter<0>(frequencies[0], *this).release());
+    addParameter(createFrequencyStepParameter<1>(frequencies[1], *this).release());
+    addParameter(createFrequencyStepParameter<2>(frequencies[2], *this).release());
+    addParameter(createFrequencyStepParameter<3>(frequencies[3], *this).release());
 }
 
 FunFilterAudioProcessor::~FunFilterAudioProcessor() noexcept = default;
