@@ -41,4 +41,6 @@ class FilterWithSmoothedCutoff
     static constexpr std::chrono::duration<double> rampSize{0.01};
     static constexpr auto expectedNbChannels = 2;
     std::array<juce::IIRFilter, expectedNbChannels> filters;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterWithSmoothedCutoff)
 };

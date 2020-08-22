@@ -60,6 +60,7 @@ jucer_project_files("Tsuru/Source"
 # Compile   Xcode     Binary    File                                    Compiler Flag
 #           Resource  Resource                                          Scheme
   .         .         .         "Source/JuceHeaderWrapper.h"
+  .         .         .         "Source/MathUtils.h"
   x         .         .         "Source/PluginProcessor.cpp"            "AllWarnings"
   .         .         .         "Source/PluginProcessor.h"
   x         .         .         "Source/PluginEditor.cpp"               "AllWarnings"
@@ -76,6 +77,10 @@ jucer_project_files("Tsuru/Source"
   .         .         .         "Source/ColorPalette.h"
   x         .         .         "Source/RateKnob.cpp"                   "AllWarnings"
   .         .         .         "Source/RateKnob.h"
+  x         .         .         "Source/CutoffSequenceComponent.cpp"    "AllWarnings"
+  .         .         .         "Source/CutoffSequenceComponent.h"
+  x         .         .         "Source/SequenceFrequencySlider.cpp"    "AllWarnings"
+  .         .         .         "Source/SequenceFrequencySlider.h"
 )
 
 jucer_project_module(

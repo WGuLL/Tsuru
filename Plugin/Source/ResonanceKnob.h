@@ -23,4 +23,5 @@ class ResonanceKnob : public juce::Component, public UiBroadcastedValueListener
     UiBroadcaster& broadcaster;
     juce::Label parameterNameLabel;
     juce::Slider knob;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResonanceKnob)
 };

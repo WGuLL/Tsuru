@@ -11,12 +11,14 @@ FunFilterEditor::FunFilterEditor(FunFilterAudioProcessor& p,
     , cutoffVisualizer(broadcaster)
     , resonanceKnob(broadcaster, p.getParameterFromName("FilterResonance"))
     , rateKnob(broadcaster, p.getParameterFromName("Rate"))
+    , cutoffSequence(broadcaster, p)
 {
     addAndMakeVisible(cutoffVisualizer);
     addAndMakeVisible(resonanceKnob);
     addAndMakeVisible(rateKnob);
+    addAndMakeVisible(cutoffSequence);
 
-    setSize(400, 300);
+    setSize(400, 350);
 }
 
 FunFilterEditor::~FunFilterEditor() = default;
@@ -29,11 +31,13 @@ void FunFilterEditor::paint(juce::Graphics& g)
 void FunFilterEditor::resized()
 {
     auto areaLeftToFill = getLocalBounds();
-    cutoffVisualizer.setBounds(areaLeftToFill.removeFromTop(proportionOfHeight(0.8f))
+    cutoffVisualizer.setBounds(areaLeftToFill.removeFromTop(proportionOfHeight(0.6f))
                                    .reduced(proportionOfWidth(0.05f)));
-    resonanceKnob.setBounds(areaLeftToFill.removeFromLeft(proportionOfWidth(0.5f))
-                                .expanded(proportionOfHeight(0.02f))
-                                .translated(0, proportionOfHeight(-0.035f)));
-    rateKnob.setBounds(areaLeftToFill.expanded(proportionOfHeight(0.02f))
-                           .translated(0, proportionOfHeight(-0.035f)));
+    auto knobsArea =
+        areaLeftToFill.removeFromTop(areaLeftToFill.proportionOfHeight(0.4f));
+    resonanceKnob.setBounds(knobsArea.removeFromLeft(proportionOfWidth(0.5f))
+                                .expanded(proportionOfHeight(0.02f)));
+    rateKnob.setBounds(knobsArea.expanded(proportionOfHeight(0.02f)));
+
+    cutoffSequence.setBounds(areaLeftToFill);
 }

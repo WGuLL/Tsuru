@@ -1,23 +1,10 @@
 
 #include "CutoffFrequencyVisualizer.h"
 #include "ColorPalette.h"
-
-namespace
-{
-[[nodiscard]] NormalisableRange<float> frequencyRange(float min, float max) noexcept
-{
-    constexpr auto convertFrom0To1Func = [](auto min, auto max, auto value) {
-        return juce::mapToLog10(value, min, max);
-    };
-    constexpr auto convertTo0To1Func = [](auto min, auto max, auto value) {
-        return juce::mapFromLog10(value, min, max);
-    };
-    return {min, max, convertFrom0To1Func, convertTo0To1Func};
-}
-} // namespace
+#include "MathUtils.h"
 
 CutoffFrequencyVisualizer::CutoffFrequencyVisualizer(UiBroadcaster& broadcaster_) noexcept
-    : range(frequencyRange(25.f, 20000.f))
+    : range(MathUtils::frequencyRange<float>())
     , broadcaster(broadcaster_)
 {
     broadcaster.getValue<ValueIds::filterCutoff>().addListener(*this);
