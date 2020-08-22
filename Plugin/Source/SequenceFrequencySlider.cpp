@@ -1,13 +1,19 @@
 
 #include "SequenceFrequencySlider.h"
+#include "ColorPalette.h"
 #include "MathUtils.h"
 
 SequenceFrequencySlider::SequenceFrequencySlider(BroadcastedValue& value_)
-    : value(value_)
+    : juce::Slider(juce::Slider::SliderStyle::LinearVertical,
+                   juce::Slider::TextEntryBoxPosition::NoTextBox)
+    , value(value_)
 {
     setNormalisableRange(MathUtils::frequencyRange(25., 15000.));
+    setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::transparentWhite);
+    setColour(juce::Slider::ColourIds::trackColourId, ColorPalette::selectiveYellow);
+    setColour(juce::Slider::ColourIds::backgroundColourId, ColorPalette::mediumSlateBlue);
 
-    setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+
     value.addListener(*this);
 }
 

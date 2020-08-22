@@ -4,8 +4,8 @@
 #include "JuceHeaderWrapper.h"
 #include "MathUtils.h"
 #include "PluginProcessor.h"
-#include "UiBroadcaster.h"
 #include "SequenceFrequencySlider.h"
+#include "UiBroadcaster.h"
 
 /**
  * Shows and edits the different cutoff frequencies of the
