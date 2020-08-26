@@ -228,4 +228,23 @@ jucer_export_target_configuration(
   BINARY_NAME "Tsuru"
 )
 
+jucer_export_target(
+  "Visual Studio 2019"
+  # VST3_SDK_FOLDER
+)
+
+jucer_export_target_configuration(
+  "Visual Studio 2019"
+  NAME "Debug"
+  DEBUG_MODE ON
+  TREAT_WARNINGS_AS_ERRORS ON
+)
+
+jucer_export_target_configuration(
+  "Visual Studio 2019"
+  NAME "Release"
+  DEBUG_MODE OFF
+  TREAT_WARNINGS_AS_ERRORS ON
+)
+
 jucer_project_end()
