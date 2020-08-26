@@ -68,7 +68,7 @@ createFrequencyStepParameter(double defaultValue, FunFilterAudioProcessor& proce
     processor.setFilterStepFrequency<index>(defaultValue);
     return std::make_unique<ParameterWithCallback>(
         "Step " + std::to_string(index) + " frequency",
-        MathUtils::frequencyRange<float>(), defaultValue,
+        MathUtils::frequencyRange<float>(), static_cast<float>(defaultValue),
         [&processor](float value) { processor.setFilterStepFrequency<index>(value); });
 }
 } // namespace
@@ -213,11 +213,11 @@ void FunFilterAudioProcessor::processBlock(
     const auto totalNumInputChannels = getTotalNumInputChannels();
     const auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    auto* playHead = getPlayHead();
+    auto* playHeadPtr = getPlayHead();
     if (playHead != nullptr)
     {
         juce::AudioPlayHead::CurrentPositionInfo info;
-        if (playHead->getCurrentPosition(info))
+        if (playHeadPtr->getCurrentPosition(info))
         {
             const auto timeInSamples = info.timeInSamples;
             filterChoregraphyStepPeriodInSamples =
@@ -226,9 +226,9 @@ void FunFilterAudioProcessor::processBlock(
                 (timeInSamples
                  / static_cast<int64_t>(filterChoregraphyStepPeriodInSamples))
                 % frequencies.size();
-            nbSamplesLeftBeforeNextStep =
+            nbSamplesLeftBeforeNextStep = static_cast<double>(
                 timeInSamples
-                % static_cast<int64_t>(filterChoregraphyStepPeriodInSamples);
+                % static_cast<int64_t>(filterChoregraphyStepPeriodInSamples));
             filter.setFilterCutoffFrequency(frequencies[currentFrequencyIndex]);
         }
     }

@@ -21,25 +21,29 @@ void CutoffFrequencyVisualizer::onBroadcastedValueChange(double value)
     repaint();
 }
 
-void CutoffFrequencyVisualizer::drawFrequencyVerticalLine(int frequency,
+void CutoffFrequencyVisualizer::drawFrequencyVerticalLine(float frequency,
                                                           juce::Graphics& g) const
 {
     const auto linePosX = proportionOfWidth(range.convertTo0to1(frequency));
-    g.drawVerticalLine(linePosX, 0, getHeight());
+    g.drawVerticalLine(linePosX, 0.f, static_cast<float>(getHeight()));
     g.drawText(juce::String(frequency), linePosX + proportionOfWidth(0.02f),
                proportionOfHeight(0.7f), proportionOfWidth(0.1f),
                proportionOfHeight(0.1f), juce::Justification::centredLeft);
 }
 
-void CutoffFrequencyVisualizer::drawFilterShape(int frequency, juce::Graphics& g) const
+void CutoffFrequencyVisualizer::drawFilterShape(float frequency, juce::Graphics& g) const
 {
-    const auto targetFrequencyPosX = proportionOfWidth(range.convertTo0to1(frequency));
+    const auto w = static_cast<float>(getWidth ());
+    const auto h = static_cast<float>(getHeight ());
+
+    const auto targetFrequencyPosX = w * range.convertTo0to1(frequency);
     juce::Path p;
-    p.startNewSubPath(0.f, proportionOfHeight(0.5f));
-    p.quadraticTo(targetFrequencyPosX, proportionOfHeight(0.5f), targetFrequencyPosX,
-                  proportionOfHeight(0.35f));
-    p.quadraticTo(targetFrequencyPosX, proportionOfHeight(0.4f),
-                  targetFrequencyPosX + proportionOfWidth(0.1f), getHeight());
+
+    p.startNewSubPath(0.f, h * 0.5f);
+    p.quadraticTo(targetFrequencyPosX, h * 0.5f, targetFrequencyPosX,
+                h *0.35f);
+    p.quadraticTo(targetFrequencyPosX, h *0.4f,
+                  targetFrequencyPosX + w * 0.1f, h);
     constexpr auto strokeThickness{2};
     g.strokePath(p, juce::PathStrokeType(strokeThickness));
 }
@@ -55,5 +59,5 @@ void CutoffFrequencyVisualizer::paint(juce::Graphics& g)
     }
 
     g.setColour(ColorPalette::selectiveYellow);
-    drawFilterShape(cutoffValue, g);
+    drawFilterShape(static_cast<float>(cutoffValue), g);
 }

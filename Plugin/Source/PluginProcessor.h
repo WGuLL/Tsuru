@@ -4,6 +4,7 @@
 #include "FilterWithSmoothedCutoff.h"
 #include "JuceHeaderWrapper.h"
 #include "UiBroadcaster.h"
+#include <cassert>
 
 /**
  * Implements the callbacks coming from the DAW.

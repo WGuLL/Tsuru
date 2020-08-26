@@ -20,11 +20,11 @@ class CutoffFrequencyVisualizer : public juce::Component,
     /**
      * setColour has to be called first.
      */
-    void drawFrequencyVerticalLine(int frequency, juce::Graphics& g) const;
-    void drawFilterShape(int frequency, juce::Graphics& g) const;
+    void drawFrequencyVerticalLine(float frequency, juce::Graphics& g) const;
+    void drawFilterShape(float frequency, juce::Graphics& g) const;
 
     const juce::NormalisableRange<float> range;
-    static constexpr std::array<int, 3> graduatedFrequencies{{100, 1000, 10000}};
+    static constexpr std::array<float, 3> graduatedFrequencies{{100, 1000, 10000}};
     double cutoffValue{1000};
     UiBroadcaster& broadcaster;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CutoffFrequencyVisualizer)

@@ -1,5 +1,6 @@
 
 #include "FilterWithSmoothedCutoff.h"
+#include <cassert>
 
 FilterWithSmoothedCutoff::FilterWithSmoothedCutoff() noexcept
 {

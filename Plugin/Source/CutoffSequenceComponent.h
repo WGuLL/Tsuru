@@ -6,6 +6,7 @@
 #include "PluginProcessor.h"
 #include "SequenceFrequencySlider.h"
 #include "UiBroadcaster.h"
+#include <cassert>
 
 /**
  * Shows and edits the different cutoff frequencies of the
@@ -31,7 +32,7 @@ class CutoffSequenceComponent : public juce::Component
         const auto frequencyRange = MathUtils::frequencyRange<float>();
         frequencySliders[stepIndex]->onValueChange = [this, frequencyRange,
                                                       &parameter]() {
-            const auto value = frequencySliders[stepIndex]->getValue();
+            const auto value = static_cast<float>(frequencySliders[stepIndex]->getValue());
             parameter.setValueNotifyingHost(frequencyRange.convertTo0to1(value));
         };
         frequencySliders[stepIndex]->onDragStart = [&parameter]() {
