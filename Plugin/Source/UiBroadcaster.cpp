@@ -1,5 +1,6 @@
 
 #include "UiBroadcaster.h"
+#include <cassert>
 
 void BroadcastedValue::setValue(double newValue) noexcept
 {
