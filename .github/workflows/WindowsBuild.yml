@@ -1,5 +1,5 @@
 
-name: CI
+name: Windows build
 
 on:
   push:
