@@ -4,4 +4,6 @@ cmake_minimum_required(VERSION 3.4)
 
 project("funFilter")
 
+execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Plugin COMMAND make updateCMakeLists)
+
 add_subdirectory(Plugin)
