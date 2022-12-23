@@ -86,7 +86,8 @@ FunFilterAudioProcessor::FunFilterAudioProcessor() noexcept
     addParameter(
         std::make_unique<ChoiceParameterWithCallback>(
             "Rate", juce::StringArray{"1/8", "1/4", "1/2", "1", "2", "4", "8"}, 4,
-            [this](int value) {
+            [this](int value)
+            {
                 broadcaster.setValue<ValueIds::sequenceDuration>(
                     static_cast<double>(value));
                 setSequenceDuration(std::pow(2, static_cast<double>(value + 1) / 8));
@@ -198,7 +199,8 @@ FunFilterAudioProcessor::getParameterFromName(const std::string_view paramName) 
     auto& parameterList = getParameters();
     auto paramIt =
         std::find_if(std::begin(parameterList), std::end(parameterList),
-                     [&paramName](const auto& parameter) {
+                     [&paramName](const auto& parameter)
+                     {
                          constexpr auto maxCharacters = 30;
                          return parameter->getName(maxCharacters) == paramName.data();
                      });
@@ -216,12 +218,12 @@ void FunFilterAudioProcessor::processBlock(
     auto* playHeadPtr = getPlayHead();
     if (playHead != nullptr)
     {
-        juce::AudioPlayHead::CurrentPositionInfo info;
-        if (playHeadPtr->getCurrentPosition(info))
+        const auto positionOpt = playHeadPtr->getPosition();
+        if (positionOpt.hasValue())
         {
-            const auto timeInSamples = info.timeInSamples;
+            const auto timeInSamples = positionOpt->getTimeInSeconds();
             filterChoregraphyStepPeriodInSamples =
-                calculateChoregraphyPeriodInSamplesFromBpm(info.bpm);
+                calculateChoregraphyPeriodInSamplesFromBpm(positionOpt->getBpm());
             currentFrequencyIndex =
                 (timeInSamples
                  / static_cast<int64_t>(filterChoregraphyStepPeriodInSamples))
@@ -269,8 +271,8 @@ juce::AudioProcessorEditor* FunFilterAudioProcessor::createEditor()
     return std::make_unique<FunFilterEditor>(*this, broadcaster).release();
 }
 
-void FunFilterAudioProcessor::getStateInformation([
-    [maybe_unused]] juce::MemoryBlock& destData)
+void FunFilterAudioProcessor::getStateInformation(
+    [[maybe_unused]] juce::MemoryBlock& destData)
 {
     juce::XmlElement mainElement("TsuruPreset");
     for (const auto& parameter : getParameters())

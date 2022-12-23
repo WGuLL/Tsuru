@@ -30,17 +30,16 @@ class CutoffSequenceComponent : public juce::Component
         auto& parameter = processor.getParameterFromName(
             "Step " + std::to_string(stepIndex) + " frequency");
         const auto frequencyRange = MathUtils::frequencyRange<float>();
-        frequencySliders[stepIndex]->onValueChange = [this, frequencyRange,
-                                                      &parameter]() {
-            const auto value = static_cast<float>(frequencySliders[stepIndex]->getValue());
+        frequencySliders[stepIndex]->onValueChange = [this, frequencyRange, &parameter]()
+        {
+            const auto value =
+                static_cast<float>(frequencySliders[stepIndex]->getValue());
             parameter.setValueNotifyingHost(frequencyRange.convertTo0to1(value));
         };
-        frequencySliders[stepIndex]->onDragStart = [&parameter]() {
-            parameter.beginChangeGesture();
-        };
-        frequencySliders[stepIndex]->onDragEnd = [&parameter]() {
-            parameter.endChangeGesture();
-        };
+        frequencySliders[stepIndex]->onDragStart = [&parameter]()
+        { parameter.beginChangeGesture(); };
+        frequencySliders[stepIndex]->onDragEnd = [&parameter]()
+        { parameter.endChangeGesture(); };
     }
 
     void resized() override;

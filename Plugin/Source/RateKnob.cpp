@@ -26,7 +26,8 @@ RateKnob::RateKnob(UiBroadcaster& broadcaster_,
     knob.setNormalisableRange({static_cast<double>(parameterRange.start),
                                static_cast<double>(parameterRange.end),
                                static_cast<float>(parameterRange.interval)});
-    knob.onValueChange = [parameterRange, &parameter, this]() {
+    knob.onValueChange = [parameterRange, &parameter, this]()
+    {
         const auto normalizedParam =
             parameterRange.convertTo0to1(static_cast<float>(knob.getValue()));
         parameter.setValueNotifyingHost(normalizedParam);
