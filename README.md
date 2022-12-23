@@ -1,6 +1,8 @@
 # Tsuru
 
-The projects use FRUT to turn the .jucer files into CMakelists files.
+<img width="401" alt="Screenshot 2022-12-23 at 01 14 59" src="https://user-images.githubusercontent.com/10920189/209246263-ce1b3fa2-876f-4abe-8174-c9472a1e6a39.png">
+
+The project use FRUT to turn the .jucer files into CMakelists files.
 Hopefully it will be useful later to add some CI more easily.
 
 When I create music, I like good sounding, simple and straight forward audio plugins. Therefore that's 
