@@ -26,7 +26,8 @@ ResonanceKnob::ResonanceKnob(UiBroadcaster& broadcaster_,
         dynamic_cast<juce::AudioParameterFloat&>(parameter).range;
     knob.setNormalisableRange({static_cast<double>(parameterRange.getRange().getStart()),
                                static_cast<double>(parameterRange.getRange().getEnd())});
-    knob.onValueChange = [parameterRange, &parameter, this]() {
+    knob.onValueChange = [parameterRange, &parameter, this]()
+    {
         const auto normalizedParam =
             parameterRange.convertTo0to1(static_cast<float>(knob.getValue()));
         parameter.setValueNotifyingHost(normalizedParam);

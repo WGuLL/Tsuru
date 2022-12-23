@@ -25,7 +25,8 @@ jucer_project_settings(
   PROJECT_VERSION "0.0.4"
   COMPANY_NAME "Symbel"
   COMPANY_EMAIL "fabien.roussel.1992@gmail.com"
-  REPORT_JUCE_APP_USAGE ON # Required for closed source applications without an Indie or Pro JUCE license
+  USE_GLOBAL_APPCONFIG_HEADER OFF
+  ADD_USING_NAMESPACE_JUCE_TO_JUCE_HEADER OFF
   DISPLAY_THE_JUCE_SPLASH_SCREEN OFF # Required for closed source applications without an Indie or Pro JUCE license
   PROJECT_TYPE "Audio Plug-in"
   BUNDLE_IDENTIFIER "com.Symbel.Tsuru"
@@ -94,7 +95,6 @@ jucer_project_module(
   # JUCE_USE_WINRT_MIDI
   # JUCE_ASIO
   # JUCE_WASAPI
-  # JUCE_WASAPI_EXCLUSIVE
   # JUCE_DIRECTSOUND
   # JUCE_ALSA
   # JUCE_JACK
@@ -133,6 +133,8 @@ jucer_project_module(
   # JUCE_PLUGINHOST_VST3
   # JUCE_PLUGINHOST_AU
   # JUCE_PLUGINHOST_LADSPA
+  # JUCE_PLUGINHOST_LV2
+  # JUCE_PLUGINHOST_ARA
   # JUCE_CUSTOM_VST3_SDK
 )
 
@@ -209,20 +211,20 @@ jucer_project_module(
 )
 
 jucer_export_target(
-  "Xcode (MacOSX)"
+  "Xcode (macOS)"
   # VST3_SDK_FOLDER
   COMPILER_FLAGS_FOR_AllWarnings "-Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-overflow=5 -Wno-unused -Wno-variadic-macros -Wundef -Wno-parentheses -Wold-style-cast -fdiagnostics-show-option"
 )
 
 jucer_export_target_configuration(
-  "Xcode (MacOSX)"
+  "Xcode (macOS)"
   NAME "Debug"
   DEBUG_MODE ON
   BINARY_NAME "Tsuru"
 )
 
 jucer_export_target_configuration(
-  "Xcode (MacOSX)"
+  "Xcode (macOS)"
   NAME "Release"
   DEBUG_MODE OFF
   BINARY_NAME "Tsuru"
